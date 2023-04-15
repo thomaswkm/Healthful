@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Healthful {
@@ -8,7 +7,7 @@ public class Healthful {
 
     public static void login(){
         String rut = solicitarRut();
-        String contraseña = ingresarContraseña(); // hay un bug aca, si se introduce mal una contraseña n veces, al terminar de mostrar el menu pide la contraseña n veces.
+        String contraseña = ingresarContraseña();
         if(validacion(rut,contraseña)){
             System.out.println(menuPaciente());
         }else{
@@ -24,7 +23,7 @@ public class Healthful {
             rut = ingresarRut();
         }catch (Exception e){
             System.out.println("Rut no válido");
-            login();
+            solicitarRut();
         }
         return rut;
     }
@@ -52,7 +51,7 @@ public class Healthful {
 
         public static String menuPaciente() {
         return """
-                Bienvenido, elija una opción: 
+                Bienvenido, elija una opción:
                 1. Ver horas disponibles.
                 2. Buscar médicos disponibles.
                 3. Solicitar una cita.
@@ -63,7 +62,7 @@ public class Healthful {
     }
     public static String menuPersonal() {
         return """
-                Bienvenido, elija una opción: 
+                Bienvenido, elija una opción:
                 1. Mostrar ficha paciente.
                 2. Salir
                 -> Ingrese una opcion:
