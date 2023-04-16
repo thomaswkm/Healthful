@@ -2,7 +2,8 @@ import java.util.Scanner;
 
 public class Healthful {
     public static void main(String[] args) {
-        String[][] pacientes = {{"203672403","thomas123"},{"21423562k","testpassw"},{"185623510","pass2"}};
+        //Para esta versión, primer indice corresponde a RUT, segundo a contraseña, tercero a una cita agendada.
+        String[][] pacientes = {{"203672403","thomas123",""},{"21423562k","testpassw",""},{"185623510","pass2",""}};
         login(pacientes);
     }
 
@@ -13,11 +14,36 @@ public class Healthful {
             contraseña = ingresarContraseña();
         }
         if(validacion(pacientes,rut,contraseña)){
-            System.out.println(menuPaciente());
+            menu(pacientes,rut);
         }else{
             System.out.println("Datos incorrectos.");
             login(pacientes);
         }
+    }
+
+    public static void menu(String[][] pacientes,String rut) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(menuPaciente());
+        respuesta(pacientes, rut, sc.nextInt());
+        menu(pacientes, rut);
+    }
+
+    public static void respuesta(String[][] pacientes, String rut, int n){
+        Scanner sc = new Scanner(System.in);
+        switch (n) {
+            case 1 -> mostrarHorasDisponibles();
+            case 2 -> mostrarMedicos();
+            case 3 -> {
+                System.out.println("Introduce la fecha:");
+                solicitarCita(pacientes, rut, sc.nextLine() );
+            }
+            case 4 -> cancelarCita(pacientes,rut);
+            case 5 -> {
+                System.out.println("Saliendo...");
+                System.exit(0);
+            }
+        }
+
     }
 
     public static String solicitarRut(){
@@ -85,6 +111,22 @@ public class Healthful {
                 2. Salir
                 -> Ingrese una opcion:
                 """;
+    }
+
+    public static void solicitarCita(String[][] pacientes, String rut, String cita){
+        pacientes[retornarIndicePaciente(pacientes,rut)][2] = cita;
+    }
+
+    public static void cancelarCita(String[][] pacientes, String rut){
+        pacientes[retornarIndicePaciente(pacientes,rut)][2] = "";
+    }
+
+    public static void mostrarHorasDisponibles(){
+
+    }
+
+    public static void mostrarMedicos(){
+
     }
 
 }
