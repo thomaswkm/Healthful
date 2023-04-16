@@ -2,17 +2,21 @@ import java.util.Scanner;
 
 public class Healthful {
     public static void main(String[] args) {
-        login();
+        String[][] pacientes = {{"203672403","thomas123"},{"21423562k","testpassw"},{"185623510","pass2"}};
+        login(pacientes);
     }
 
-    public static void login(){
+    public static void login(String[][] pacientes){
         String rut = solicitarRut();
-        String contraseña = ingresarContraseña();
-        if(validacion(rut,contraseña)){
+        String contraseña = "";
+        if(retornarIndicePaciente(pacientes,rut)!=-1) {
+            contraseña = ingresarContraseña();
+        }
+        if(validacion(pacientes,rut,contraseña)){
             System.out.println(menuPaciente());
         }else{
             System.out.println("Datos incorrectos.");
-            login();
+            login(pacientes);
         }
     }
 
@@ -23,7 +27,6 @@ public class Healthful {
             rut = ingresarRut();
         }catch (Exception e){
             System.out.println("Rut no válido");
-            solicitarRut();
         }
         return rut;
     }
@@ -42,12 +45,27 @@ public class Healthful {
         return new Scanner(System.in).nextLine();
     }
 
-    public static boolean validacion(String rut, String contraseña){
-        //acá tendría que haber una forma de comparar la contraseña con una ya almacenada, puede ser en un archivo.txt(más adelante) o simplemente definirla en el main(por ahora).
-        return true;
+    public static boolean validacion(String[][] pacientes, String rut, String contraseña){
+        int indice;
+        try {
+            indice = retornarIndicePaciente(pacientes, rut);
+            if (pacientes[indice][1].equals(contraseña)) {  //pensando en que la contraseña se guarda en el indice 1.
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println("El paciente no fue encontrado.");
+        }
+        return false;
     }
 
-
+    public static int retornarIndicePaciente(String[][] pacientes, String rut){
+        for (int i = 0; i < pacientes.length; i++) {
+            if (pacientes[i][0].equals(rut)){
+                return i;
+            }
+        }
+        return -1;
+    }
 
         public static String menuPaciente() {
         return """
