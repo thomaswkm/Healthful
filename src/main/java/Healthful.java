@@ -1,9 +1,10 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Healthful {
     public static void main(String[] args) {
         //Para esta versión, primer indice corresponde a RUT, segundo a contraseña, tercero a una cita agendada.
-        String[][] pacientes = {{"203672403","thomas123",""},{"21423562k","testpassw",""},{"185623510","pass2",""}};
+        String[][] pacientes = {{"203672403","thomas123",""},{"21423562k","testpassw",""},{"185623510","pass2",""}}; // pacientes para inicializar.
         login(pacientes);
     }
 
@@ -24,7 +25,11 @@ public class Healthful {
     public static void menu(String[][] pacientes,String rut) {
         Scanner sc = new Scanner(System.in);
         System.out.println(menuPaciente());
-        respuesta(pacientes, rut, sc.nextInt());
+        try {
+            respuesta(pacientes, rut, sc.nextInt());
+        } catch (InputMismatchException ime){
+            System.out.println("Ingrese un número");
+        }
         menu(pacientes, rut);
     }
 
@@ -38,13 +43,15 @@ public class Healthful {
                 solicitarCita(pacientes, rut, sc.nextLine() );
             }
             case 4 -> cancelarCita(pacientes,rut);
-            case 5 -> {
+            case 5 -> mostrarHorasAgendadas(pacientes,rut);
+            case 6 -> {
                 System.out.println("Saliendo...");
                 System.exit(0);
             }
         }
 
     }
+
 
     public static String solicitarRut(){
         System.out.println("Ingrese su RUT (sin puntos ni guión)");
@@ -100,7 +107,8 @@ public class Healthful {
                 2. Buscar médicos disponibles.
                 3. Solicitar una cita.
                 4. Cancelar una cita.
-                5. Salir
+                5. Ver horas agendadas.
+                6. Salir
                 -> Ingrese una opcion:
                 """;
     }
@@ -122,11 +130,13 @@ public class Healthful {
     }
 
     public static void mostrarHorasDisponibles(){
-
     }
 
     public static void mostrarMedicos(){
+    }
 
+    public static void mostrarHorasAgendadas(String[][] pacientes, String rut) {
+        System.out.println(pacientes[retornarIndicePaciente(pacientes,rut)][2]);
     }
 
 }
