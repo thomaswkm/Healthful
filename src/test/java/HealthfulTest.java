@@ -1,5 +1,64 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HealthfulTest {
+    private String[][] usuarios;
 
+    @BeforeEach
+    void setUp() {
+        usuarios = new String[][]{
+                {"203672403", "thomas123", "Personal"},
+                {"21423562k", "testpassw", "Paciente"},
+                {"185623510", "pass2", "Personal"}
+        };
+    }
+
+    @Test
+    void buscarUsuario_DebeRetornarElUsuario_CuandoEstaRegistrado() {
+        String rutUsuario = "203672403";
+
+        String[] usuarioExistenteReal = Healthful.buscarUsuarioPorRut(usuarios, rutUsuario);
+
+        String[] usuarioExistenteEsperado = {"203672403", "thomas123", "Personal"};
+
+        assertArrayEquals(usuarioExistenteEsperado, usuarioExistenteReal);
+    }
+
+    @Test
+    void buscarUsuario_DebeRetornarUnArregloVacio_CuandoNoExisteElUsuario() {
+        String rutUsuario = "123456789";
+
+        String[] arregloDevuelto = Healthful.buscarUsuarioPorRut(usuarios, rutUsuario);
+
+        String[] arregloEsperado = new String[3];
+
+        assertArrayEquals(arregloEsperado, arregloDevuelto);
+    }
+
+    @Test
+    void validarFormatoRutSinPuntosNiGuion_DebeRetonarElRutIngresado_CuandoEsUnRutValido() {
+        String rut = "123456789";
+
+        String rutDevuelto = Healthful.validarFormatoRut(rut);
+
+        assertEquals(rut, rutDevuelto);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "rutnovalido",
+            "12.345.567-5",
+            "",
+    })
+    void validarFormatoRutSinPuntosNiGuion_DebeArrojarExcepcion_CuandoNoUnRutValido(String rut) {
+        RuntimeException runtimeException = assertThrows(RuntimeException.class,
+                () -> Healthful.validarFormatoRut(rut)
+        );
+
+        assertEquals("El formato del RUT no es válido", runtimeException.getMessage());
+    }
 }
