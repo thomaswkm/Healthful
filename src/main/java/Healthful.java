@@ -76,21 +76,20 @@ public class Healthful {
 
     public static String solicitarRut() {
         System.out.println("Ingrese su RUT (sin puntos ni guión)");
+        String rut = new Scanner(System.in).nextLine();
+
         try {
-            return ingresarRut();
+            return validarFormatoRut(rut);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return solicitarRut();
         }
     }
 
-    public static String ingresarRut() {
-        String rut = new Scanner(System.in).nextLine();
-
+    public static String validarFormatoRut(String rut) {
         if (!rut.matches("^\\d{7,8}[Kk|\\d]$")) {
             throw new RuntimeException("El formato del RUT no es válido");
         }
-
         return rut;
     }
 
