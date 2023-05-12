@@ -40,7 +40,7 @@
     - ArrayList con horas asociadas.
   
 
-3. GestorArchivos
+3. GestorArchivo
 - Atributos:
     - Rutas
 
