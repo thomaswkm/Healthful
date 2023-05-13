@@ -40,4 +40,21 @@ public class GestorArchivo {
         }
     }
 
+    public String devolverFicha(String ruta, String rut){
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(ruta));
+            String line = reader.readLine();
+            while (line != null) {
+                line = reader.readLine();
+                if(line.split(",")[0].equals(rut)){
+                    return line;
+                }
+            }
+        }catch (IOException e) {
+            System.out.println("No se pudo leer el archivo");
+        }
+        return "El paciente no está registrado";
+    }
+
+
 }

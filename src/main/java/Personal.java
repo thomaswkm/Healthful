@@ -1,4 +1,3 @@
-import java.io.BufferedWriter;
 import java.util.ArrayList;
 
 public class Personal {
@@ -6,7 +5,6 @@ public class Personal {
     private String rut;
     private String contraseña;
     private String nombre;
-
     private String especialidad;
     private ArrayList<String> horas = new ArrayList<String>();
 
@@ -59,6 +57,11 @@ public class Personal {
 
     public void setHoras(ArrayList<String> horas) {
         this.horas = horas;
+    }
+
+    public void mostrarFichaPaciente(Paciente p){
+        GestorArchivo ga = new GestorArchivo();
+        System.out.println(ga.devolverFicha("pacientes.txt",p.getRut()));
     }
 
     @Override

@@ -10,7 +10,7 @@
   - Se accederá buscando por el RUT, el cual debería ser el primer dato de la linea.
 
 - Horas(contiene: horas agendadas, horas disponibles)
-  - De igual manera, se contempla un solo archivo, donde se escribirán las horas en orden de llegadas, separadas por saltos de línea.
+  - De igual manera, se contempla un solo archivo, donde se escribirán las horas en orden de llegada, separadas por saltos de línea, asociada a un Paciente y un médico.
   - Debería gestionarse una manera de comparar las horas tomadas con todas las horas que se podrían tomar en un determinado periodo, para así poder mostrar las horas disponibles.
   - Por ahora solo mostrar de manera textual.
 
