@@ -22,30 +22,32 @@
 
 ***CLASES***
 
+1. Usuario
+- Atributos:
+  - RUT
+  - Contraseña
 
-1. Paciente:
+2. Paciente:
 - Atributos:
     - RUT
-    - Contraseña
     - Nombre
     - ArrayList con horas asociadas(en caso de tener más de una, con distintos médicos)
 
 
-2. Personal
+3. Personal
 - Atributos:
     - RUT
-    - Contraseña
     - Nombre
     - Especialidad
     - ArrayList con horas asociadas.
   
 
-3. GestorArchivo
+4. GestorArchivo
 - Atributos:
     - Rutas
 
 
-4. Calendario
+5. Calendario
 
 
 
