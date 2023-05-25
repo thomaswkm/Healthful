@@ -1,22 +1,21 @@
 import java.util.ArrayList;
 
-public class Personal {
+public class Medico {
 
     private String rut;
-    private String contraseña;
+
     private String nombre;
     private String especialidad;
     private ArrayList<String> horas = new ArrayList<String>();
 
-    public Personal(String rut, String contraseña, String nombre, String especialidad, ArrayList<String> horas) {
+    public Medico(String rut, String nombre, String especialidad, ArrayList<String> horas) {
         this.rut = rut;
-        this.contraseña = contraseña;
         this.nombre = nombre;
         this.especialidad = especialidad;
         this.horas = horas;
     }
 
-    public Personal() {
+    public Medico() {
     }
 
     public String getRut() {
@@ -27,13 +26,7 @@ public class Personal {
         this.rut = rut;
     }
 
-    public String getContraseña() {
-        return contraseña;
-    }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
 
     public String getNombre() {
         return nombre;

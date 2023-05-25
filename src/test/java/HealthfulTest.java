@@ -11,9 +11,9 @@ class HealthfulTest {
     @BeforeEach
     void setUp() {
         usuarios = new String[][]{
-                {"203672403", "thomas123", "Personal"},
+                {"203672403", "thomas123", "Medico"},
                 {"21423562k", "testpassw", "Paciente"},
-                {"185623510", "pass2", "Personal"}
+                {"185623510", "pass2", "Medico"}
         };
     }
 
@@ -23,7 +23,7 @@ class HealthfulTest {
 
         String[] usuarioExistenteReal = Healthful.buscarUsuarioPorRut(usuarios, rutUsuario);
 
-        String[] usuarioExistenteEsperado = {"203672403", "thomas123", "Personal"};
+        String[] usuarioExistenteEsperado = {"203672403", "thomas123", "Medico"};
 
         assertArrayEquals(usuarioExistenteEsperado, usuarioExistenteReal);
     }

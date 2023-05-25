@@ -34,7 +34,7 @@
     - ArrayList con horas asociadas(en caso de tener más de una, con distintos médicos)
 
 
-3. Personal
+3. Medico:
 - Atributos:
     - RUT
     - Nombre
