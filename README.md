@@ -33,21 +33,22 @@
     - Nombre
     - ArrayList con horas asociadas(en caso de tener más de una, con distintos médicos)
 
-
-3. Medico:
+3. MenuPaciente:
+4. Medico:
 - Atributos:
     - RUT
     - Nombre
     - Especialidad
     - ArrayList con horas asociadas.
   
+5. MenuMedico:
 
-4. GestorArchivo
+6. GestorArchivo
 - Atributos:
     - Rutas
 
 
-5. Calendario
+7. Calendario
 
 
 

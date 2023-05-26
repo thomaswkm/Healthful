@@ -9,6 +9,10 @@ public class Usuario {
         this.password = password;
     }
 
+    public Usuario(){
+
+    }
+
     /*como password no deberia ser utilizado de ninguna manera(getter y setters incluidos) fuera de la clase, se realizaría el registro de usuario
      y login dentro de la misma clase.*/
 

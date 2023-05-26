@@ -61,4 +61,7 @@ public class Medico {
     public String toString() {
         return rut+","+nombre+","+especialidad+","+horas;
     }
+
+    public void mostrarFichaPacientes() {
+    }
 }

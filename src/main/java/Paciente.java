@@ -5,6 +5,16 @@ public class Paciente {
     private String nombre;
     private ArrayList<String> horas = new ArrayList<String>();
 
+    public Paciente(String rut, String nombre, ArrayList<String> horas) {
+        this.rut = rut;
+        this.nombre = nombre;
+        this.horas = horas;
+    }
+
+    public Paciente() {
+    }
+
+
     public String getRut() {
         return rut;
     }
@@ -30,18 +40,23 @@ public class Paciente {
         this.horas = horas;
     }
 
-    public Paciente(String rut, String nombre, ArrayList<String> horas) {
-        this.rut = rut;
-        this.nombre = nombre;
-        this.horas = horas;
-    }
-
-    public Paciente() {
-    }
-
     @Override
     public String toString() {
         return rut+","+nombre+","+horas;
     }
 
+    public void mostrarHorasDisponibles() {
+    }
+
+    public void mostrarMedicos() {
+    }
+
+    public void solicitarHora() {
+    }
+
+    public void cancelarHora() {
+    }
+
+    public void mostrarHorasAgendadas() {
+    }
 }
