@@ -5,7 +5,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HealthfulTest {
+class HealthfulOldTest {
     private String[][] usuarios;
 
     @BeforeEach
@@ -21,7 +21,7 @@ class HealthfulTest {
     void buscarUsuario_DebeRetornarElUsuario_CuandoEstaRegistrado() {
         String rutUsuario = "203672403";
 
-        String[] usuarioExistenteReal = Healthful.buscarUsuarioPorRut(usuarios, rutUsuario);
+        String[] usuarioExistenteReal = HealthfulOld.buscarUsuarioPorRut(usuarios, rutUsuario);
 
         String[] usuarioExistenteEsperado = {"203672403", "thomas123", "Medico"};
 
@@ -32,7 +32,7 @@ class HealthfulTest {
     void buscarUsuario_DebeRetornarUnArregloVacio_CuandoNoExisteElUsuario() {
         String rutUsuario = "123456789";
 
-        String[] arregloDevuelto = Healthful.buscarUsuarioPorRut(usuarios, rutUsuario);
+        String[] arregloDevuelto = HealthfulOld.buscarUsuarioPorRut(usuarios, rutUsuario);
 
         String[] arregloEsperado = new String[3];
 
@@ -43,7 +43,7 @@ class HealthfulTest {
     void validarFormatoRutSinPuntosNiGuion_DebeRetonarElRutIngresado_CuandoEsUnRutValido() {
         String rut = "123456789";
 
-        String rutDevuelto = Healthful.validarFormatoRut(rut);
+        String rutDevuelto = HealthfulOld.validarFormatoRut(rut);
 
         assertEquals(rut, rutDevuelto);
     }
@@ -56,7 +56,7 @@ class HealthfulTest {
     })
     void validarFormatoRutSinPuntosNiGuion_DebeArrojarExcepcion_CuandoNoUnRutValido(String rut) {
         RuntimeException runtimeException = assertThrows(RuntimeException.class,
-                () -> Healthful.validarFormatoRut(rut)
+                () -> HealthfulOld.validarFormatoRut(rut)
         );
 
         assertEquals("El formato del RUT no es válido", runtimeException.getMessage());

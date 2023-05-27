@@ -4,6 +4,15 @@ import java.util.Scanner;
 public class MenuMedico {
 
     private Medico m;
+    private Healthful h;
+
+    public MenuMedico() {
+    }
+
+    public MenuMedico(Medico m, Healthful h) {
+        this.m = m;
+        this.h = h;
+    }
 
     public void menu() {
         System.out.println(textoMenu());
@@ -30,8 +39,8 @@ public class MenuMedico {
 
     public void procesarOpcionIngresada(int opcionIngresada) {
         switch (opcionIngresada) {
-            case 1 -> m.mostrarFichaPacientes();
-            case 2 -> System.exit(1);
+            case 1 -> h.mostrarFichaPacientes();
+            case 2 -> System.exit(0);
         }
         menu();
     }

@@ -27,7 +27,6 @@ public class Medico {
     }
 
 
-
     public String getNombre() {
         return nombre;
     }
@@ -52,16 +51,10 @@ public class Medico {
         this.horas = horas;
     }
 
-    public void mostrarFichaPaciente(Paciente p){
-        GestorArchivo ga = new GestorArchivo();
-        System.out.println(ga.devolverFicha("pacientes.txt",p.getRut()));
-    }
-
     @Override
     public String toString() {
         return rut+","+nombre+","+especialidad+","+horas;
     }
 
-    public void mostrarFichaPacientes() {
-    }
+
 }

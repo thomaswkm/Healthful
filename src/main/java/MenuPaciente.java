@@ -3,6 +3,15 @@ import java.util.Scanner;
 
 public class MenuPaciente {
     private Paciente p;
+    private Healthful h;
+
+    public MenuPaciente() {
+    }
+
+    public MenuPaciente(Paciente p, Healthful h) {
+        this.p = p;
+        this.h = h;
+    }
 
     public void menu() {
         System.out.println(textoMenu());
@@ -27,14 +36,14 @@ public class MenuPaciente {
         return opcionIngresada;
     }
 
-    public void procesarOpcionIngresada(int opcionIngresada) {
+   public void procesarOpcionIngresada(int opcionIngresada) {
         switch (opcionIngresada) {
-            case 1 -> p.mostrarHorasDisponibles();
-            case 2 -> p.mostrarMedicos();
-            case 3 -> p.solicitarHora();
-            case 4 -> p.cancelarHora();
-            case 5 -> p.mostrarHorasAgendadas();
-            case 6 -> System.exit(1);
+            case 1 -> h.mostrarHorasDisponibles();
+            case 2 -> h.mostrarMedicos();
+            case 3 -> h.solicitarCita(p);
+            case 4 -> h.cancelarCita(p);
+            case 5 -> h.mostrarCitasAgendadas(p);
+            case 6 -> System.exit(0);
         }
         menu();
     }

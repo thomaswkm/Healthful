@@ -6,6 +6,10 @@ public class GestorArchivo {
     public GestorArchivo(){
     }
 
+    /*Estoy considerando borrar los metodos agregarPaciente y agregarMedico, y realizar un escritor y lector generico, que cada vez que se inicia el programa carga los archivos
+     y al terminar el programa borra los archivos y crea unos nuevos con los datos.
+
+
     public void agregarPaciente(String ruta, Paciente p){
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(ruta,true));
@@ -26,7 +30,7 @@ public class GestorArchivo {
         } catch (IOException e) {
             System.out.println("No se pudo escribir el archivo.");
         }
-    }
+    } */
 
     public String devolverFicha(String ruta, String rut){
         try{

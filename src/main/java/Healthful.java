@@ -1,185 +1,113 @@
-import java.util.Arrays;
-import java.util.InputMismatchException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Healthful {
-    public static void main(String[] args) {
-        //Para esta versión, primer indice corresponde a RUT, segundo a contraseña, rol usuario.
-        String[][] usuarios = {
-                {"203672403", "thomas123", "Medico"},
-                {"21423562k", "testpassw", "Paciente"},
-                {"185623510", "pass2", "Medico"}
-        };
-        login(usuarios);
+
+    private ArrayList<Paciente> pacientes;
+    private ArrayList<Medico> medicos;
+    private ArrayList<Cita> citas;
+
+    public Healthful() {
     }
 
-    public static void login(String[][] usuarios) {
-        String rut = solicitarRut();
-        String[] usuario = buscarUsuarioPorRut(usuarios, rut);
-
-        if (usuarioNoEstaRegistrado(usuario)) {
-            System.out.println("Usuario no registrado");
-            login(usuarios);
-            return;
-        }
-
-        String password = solicitarPassword();
-        if (noEsPasswordValida(usuario, password)) {
-            System.out.println("La contraseña ingresada no es válida");
-            login(usuarios);
-            return;
-        }
-
-        mostrarMenuSegunRolUsuario(usuario);
+    public Healthful(ArrayList<Paciente> pacientes, ArrayList<Medico> medicos, ArrayList<Cita> citas) {
+        this.pacientes = pacientes;
+        this.medicos = medicos;
+        this.citas = citas;
     }
 
-    private static void mostrarMenuSegunRolUsuario(String[] usuario) {
-        if (usuario[2].equals("Medico")) {
-            menuPersonal(usuario);
+    public ArrayList<Paciente> getPacientes() {
+        return pacientes;
+    }
+
+    public ArrayList<Medico> getMedicos() {
+        return medicos;
+    }
+
+    public ArrayList<Cita> getCitas() {
+        return citas;
+    }
+
+    public void addPaciente(Paciente p){
+        pacientes.add(p);
+    }
+
+    public void addMedico(Medico m){
+        medicos.add(m);
+    }
+
+    public void addCita(Cita c){
+        citas.add(c);
+    }
+
+    public void removeCita(Cita c){
+        if(citas.indexOf(c)!=1){
+            citas.remove(c);
+        }else {
+            System.out.println("La cita elegida no está registrada.");
+        }
+    }
+
+    public void mostrarMedicos() {
+        System.out.println(medicos);
+    }
+
+    public void solicitarCita(Paciente p) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingrese el día: ");
+        int dia = sc.nextInt();
+        System.out.println("Ingrese el número del mes: ");
+        int mes = sc.nextInt();
+        System.out.println("Ingrese el año: ");
+        int year = sc.nextInt();
+        System.out.println("Ingrese la hora del día: ");
+        int hora = sc.nextInt();
+        System.out.println("Ingrese los minutos: ");
+        int minutos = sc.nextInt();
+        System.out.println("Ingrese el rut del médico: ");
+        String rut = sc.next();
+        agregarCita(obtenerMedico(rut),p,dia,mes,year,hora,minutos);
+    }
+
+    public void agregarCita(Medico medico, Paciente p, int dia, int mes ,int year, int hora, int minutos){
+        if (medico != null) {
+            Cita c = new Cita(p, medico, dia, mes, year, hora, minutos);
+            if (!citas.contains(c)) {
+                citas.add(c);
+            } else {
+                System.out.println("La cita ya fue registrada.");
+            }
         } else {
-            menuPaciente(usuario);
+            System.out.println("No se encontró al médico con el rut ingresado.");
         }
     }
 
-    public static boolean usuarioNoEstaRegistrado(String[] usuario) {
-        return Arrays.equals(usuario, new String[usuario.length]);
-    }
 
-    public static void procesarOpcionIngresadaMenuPaciente(String[] paciente, int opcionIngresada) {
-        switch (opcionIngresada) {
-            case 1 -> mostrarHorasDisponibles();
-            case 2 -> mostrarMedicos();
-            case 3 -> solicitarCita(paciente);
-            case 4 -> cancelarCita(paciente);
-            case 5 -> mostrarHorasAgendadas(paciente);
-            case 6 -> salir();
-        }
-        menuPaciente(paciente);
-    }
-
-    public static void procesarOpcionIngresadaMenuPersonal(String[] personal, int opcionIngresada) {
-        switch (opcionIngresada) {
-            case 1 -> mostrarFichaPacientes(personal);
-            case 2 -> salir();
-        }
-        menuPersonal(personal);
-    }
-
-    private static void mostrarFichaPacientes(String[] personal) {
-        System.out.println("Funcionalidad por implementar");
-    }
-
-    private static void salir() {
-        System.out.println("Saliendo...");
-        System.exit(0);
-    }
-
-    public static String solicitarRut() {
-        System.out.println("Ingrese su RUT (sin puntos ni guión)");
-        String rut = new Scanner(System.in).nextLine();
-
-        try {
-            return validarFormatoRut(rut);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return solicitarRut();
-        }
-    }
-
-    public static String validarFormatoRut(String rut) {
-        if (!rut.matches("^\\d{7,8}[Kk|\\d]$")) {
-            throw new RuntimeException("El formato del RUT no es válido");
-        }
-        return rut;
-    }
-
-    public static String solicitarPassword() {
-        System.out.println("Ingrese su contraseña");
-        return new Scanner(System.in).nextLine();
-    }
-
-    public static boolean noEsPasswordValida(String[] usuario, String passwordIngresada) {
-        return !usuario[1].equals(passwordIngresada);
-    }
-
-    public static String[] buscarUsuarioPorRut(String[][] usuarios, String rutIngresado) {
-        for (String[] usuario : usuarios) {
-            if (usuario[0].equals(rutIngresado)) {
-                return usuario;
+    public Medico obtenerMedico(String rut) {
+        for (Medico m: medicos) {
+            if (m.getRut().equals(rut)){
+                return m;
             }
         }
-        return new String[usuarios[0].length];
+        return null;
+    }
+    public void mostrarCitasAgendadas(Paciente p) {
+        System.out.println(p.getCitas());
     }
 
-    public static void menuPaciente(String[] usuario) {
-        System.out.println(textoMenuPaciente());
-        procesarOpcionIngresadaMenuPaciente(usuario, ingresarOpcion(6));
+    public void cancelarCita(Paciente p) {
+        System.out.println(p.getCitas());
+        System.out.println("Elige el numero de cita a borrar");
+        removeCita(p.getCitas().get(new Scanner(System.in).nextInt()));
     }
 
-    private static int validarOpcionIngresada(int opcionIngresada, int cantidadOpciones) {
-        if (opcionIngresada < 1 || opcionIngresada > cantidadOpciones) {
-            System.out.println("Ingrese una opcion valida");
-            return ingresarOpcion(cantidadOpciones);
-        }
-        return opcionIngresada;
+    public void mostrarFichaPacientes() {
+        System.out.println("Ingresa el rut del paciente");
+        System.out.println(new GestorArchivo().devolverFicha("pacientes.txt",new Scanner(System.in).nextLine()));
+
     }
 
-    private static int ingresarOpcion(int cantidadOpciones) {
-        Scanner teclado = new Scanner(System.in);
-        try {
-            return validarOpcionIngresada(teclado.nextInt(), cantidadOpciones);
-        } catch (InputMismatchException e) {
-            System.out.println("Debe ingresar un numero");
-            return ingresarOpcion(cantidadOpciones);
-        }
+    public void mostrarHorasDisponibles() {
     }
 
-    public static void menuPersonal(String[] usuario) {
-        System.out.println(textoMenuPersonal());
-        procesarOpcionIngresadaMenuPersonal(usuario, ingresarOpcion(2));
-    }
-
-    public static void solicitarCita(String[] usuario) {
-        System.out.println("Introduzca la fecha de la cita:");
-        String cita = new Scanner(System.in).nextLine();
-
-//        pacientes[buscarUsuarioPorRut(pacientes, rut)][2] = cita;
-        System.out.println("Funcionalidad por implementar");
-    }
-
-    public static void cancelarCita(String[] usuario) {
-        System.out.println("Funcionalidad por implementar");
-    }
-
-    public static void mostrarHorasDisponibles() {
-        System.out.println("Funcionalidad por implementar");
-    }
-
-    public static void mostrarMedicos() {
-        System.out.println("Funcionalidad por implementar");
-    }
-
-    public static void mostrarHorasAgendadas(String[] usuario) {
-        System.out.println("Funcionalidad por implementar");
-    }
-
-    private static String textoMenuPersonal() {
-        return """
-                Bienvenido, elija una opción:
-                1. Mostrar ficha paciente.
-                2. Salir
-                -> Ingrese una opcion:""";
-    }
-
-    private static String textoMenuPaciente() {
-        return """
-                Bienvenido, elija una opción:
-                1. Ver horas disponibles.
-                2. Buscar médicos disponibles.
-                3. Solicitar una cita.
-                4. Cancelar una cita.
-                5. Ver horas agendadas.
-                6. Salir
-                -> Ingrese una opcion:""";
-    }
 }

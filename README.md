@@ -21,34 +21,34 @@
 
 
 ***CLASES***
-
-1. Usuario
+1. Healthful
+2. Usuario
 - Atributos:
   - RUT
   - Contraseña
 
-2. Paciente:
+3. Paciente:
 - Atributos:
     - RUT
     - Nombre
     - ArrayList con horas asociadas(en caso de tener más de una, con distintos médicos)
 
-3. MenuPaciente:
-4. Medico:
+4. MenuPaciente:
+5. Medico:
 - Atributos:
     - RUT
     - Nombre
     - Especialidad
     - ArrayList con horas asociadas.
   
-5. MenuMedico:
+6. MenuMedico:
 
-6. GestorArchivo
+7. GestorArchivo
 - Atributos:
     - Rutas
 
 
-7. Calendario
+8. Cita
 
 
 

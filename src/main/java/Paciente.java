@@ -3,12 +3,12 @@ import java.util.ArrayList;
 public class Paciente {
     private String rut;
     private String nombre;
-    private ArrayList<String> horas = new ArrayList<String>();
+    private ArrayList<Cita> citas = new ArrayList<Cita>();
 
-    public Paciente(String rut, String nombre, ArrayList<String> horas) {
+    public Paciente(String rut, String nombre, ArrayList<Cita> citas) {
         this.rut = rut;
         this.nombre = nombre;
-        this.horas = horas;
+        this.citas = citas;
     }
 
     public Paciente() {
@@ -32,31 +32,17 @@ public class Paciente {
         this.nombre = nombre;
     }
 
-    public ArrayList<String> getHoras() {
-        return horas;
+    public ArrayList<Cita> getCitas() {
+        return citas;
     }
 
-    public void setHoras(ArrayList<String> horas) {
-        this.horas = horas;
+    public void setHoras(ArrayList<Cita> horas) {
+        this.citas = horas;
     }
 
     @Override
     public String toString() {
-        return rut+","+nombre+","+horas;
+        return rut + "," + nombre + "," + citas;
     }
 
-    public void mostrarHorasDisponibles() {
-    }
-
-    public void mostrarMedicos() {
-    }
-
-    public void solicitarHora() {
-    }
-
-    public void cancelarHora() {
-    }
-
-    public void mostrarHorasAgendadas() {
-    }
 }
