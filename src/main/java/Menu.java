@@ -108,14 +108,10 @@ public class Menu {
     }
 
     public void guardarCambios() {
-        ArrayList<Usuario> usuarios = h.getUsuarios();
-        ga.guardarUsuarios("usuarios.txt", usuarios);
-        ArrayList<Paciente> pacientes = h.getPacientes();
-        ga.guardarPacientes("pacientes.txt", pacientes);
-        ArrayList<Medico> medicos = h.getMedicos();
-        ga.guardarMedicos("medicos.txt", medicos);
-        ArrayList<Cita> citas = h.getCitas();
-        ga.guardarCitas("citas.txt", citas);
+        ga.guardarUsuarios("usuarios.txt", h);
+        ga.guardarPacientes("pacientes.txt", h);
+        ga.guardarMedicos("medicos.txt", h);
+        ga.guardarCitas("citas.txt", h);
     }
 
     public void menuRegistro() {
@@ -129,13 +125,11 @@ public class Menu {
 
             if(respuesta.equals("Paciente")){
                 Paciente p = new Paciente(u.toString().split(",")[0],nombre,new ArrayList<>());
-                //ga.agregarPaciente("pacientes.txt",p);
                 h.addPaciente(p);
             } else if (respuesta.equals("Medico")) {
                 System.out.println("Ingresa una especialidad: ");
                 String especialidad = new Scanner(System.in).nextLine();
                 Medico m = new Medico(u.toString().split(",")[0],nombre,especialidad,new ArrayList<>());
-                //ga.agregarMedico("medicos.txt",m);
                 h.addMedico(m);
             }
         }

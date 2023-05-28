@@ -49,14 +49,6 @@ public class Healthful {
         usuarios.add(u);
     }
 
-
-    public void removeCita(Paciente p, Cita c){
-            citas.remove(c);
-            p.removeCita(c);
-            Medico m = obtenerMedico(c.getRutMedico());
-            m.removeCita(c);
-    }
-
     public void mostrarMedicos() {
         System.out.println(medicos);
     }
@@ -85,7 +77,6 @@ public class Healthful {
                 citas.add(c);
                 p.addCita(c);
                 medico.addCita(c);
-                //new GestorArchivo().agregarCita("citas.txt",c);
             } else {
                 System.out.println("La cita ya fue registrada.");
             }
@@ -113,6 +104,15 @@ public class Healthful {
         System.out.println("Elige el numero de cita a borrar");
         removeCita(p,p.getCitas().get(new Scanner(System.in).nextInt()));
     }
+
+    public void removeCita(Paciente p, Cita c){
+        citas.remove(c);
+        p.removeCita(c);
+        Medico m = obtenerMedico(c.getRutMedico());
+        m.removeCita(c);
+
+    }
+
 
     public void mostrarFichaPaciente() {
         System.out.println("Ingresa el rut del paciente");
