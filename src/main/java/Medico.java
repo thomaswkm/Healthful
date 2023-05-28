@@ -50,6 +50,14 @@ public class Medico {
         this.citas = citas;
     }
 
+    public void addCita(Cita c){
+        citas.add(c);
+    }
+
+    public void removeCita(Cita c){
+        citas.remove(c);
+    }
+
     @Override
     public String toString() {
         return rut+","+nombre+","+especialidad;

@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -31,6 +30,10 @@ public class Healthful {
         return citas;
     }
 
+    public ArrayList<Usuario> getUsuarios(){
+        return usuarios;
+    }
+
     public void addPaciente(Paciente p){
         pacientes.add(p);
     }
@@ -47,12 +50,11 @@ public class Healthful {
     }
 
 
-    public void removeCita(Cita c){
-        if(citas.contains(c)){
+    public void removeCita(Paciente p, Cita c){
             citas.remove(c);
-        }else {
-            System.out.println("La cita elegida no está registrada.");
-        }
+            p.removeCita(c);
+            Medico m = obtenerMedico(c.getRutMedico());
+            m.removeCita(c);
     }
 
     public void mostrarMedicos() {
@@ -81,7 +83,9 @@ public class Healthful {
             Cita c = new Cita(p.getRut(), medico.getRut(), dia, mes, year, hora, minutos);
             if (!citas.contains(c)) {
                 citas.add(c);
-                new GestorArchivo().agregarCita("citas.txt",c);
+                p.addCita(c);
+                medico.addCita(c);
+                //new GestorArchivo().agregarCita("citas.txt",c);
             } else {
                 System.out.println("La cita ya fue registrada.");
             }
@@ -99,6 +103,7 @@ public class Healthful {
         }
         return null;
     }
+
     public void mostrarCitasAgendadas(Paciente p) {
         System.out.println(p.getCitas());
     }
@@ -106,7 +111,7 @@ public class Healthful {
     public void cancelarCita(Paciente p) {
         System.out.println(p.getCitas());
         System.out.println("Elige el numero de cita a borrar");
-        removeCita(p.getCitas().get(new Scanner(System.in).nextInt()));
+        removeCita(p,p.getCitas().get(new Scanner(System.in).nextInt()));
     }
 
     public void mostrarFichaPaciente() {

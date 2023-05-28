@@ -52,8 +52,59 @@ public class GestorArchivo {
         return false;
     }
 
+    public void guardarUsuarios(String ruta, ArrayList<Usuario> usuarios) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
+            for (Usuario u : usuarios) {
+                writer.write(u.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("No se pudo escribir en el archivo de usuarios.");
+        }
+    }
 
-    public void agregarPaciente(String ruta, Paciente p){
+    public void guardarPacientes(String ruta, ArrayList<Paciente> pacientes) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
+            for (Paciente p : pacientes) {
+                writer.write(p.toString());
+                for (Cita c : p.getCitas()) {
+                    writer.write("," + c.toString());
+                }
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("No se pudo escribir en el archivo de pacientes.");
+        }
+    }
+
+    public void guardarMedicos(String ruta, ArrayList<Medico> medicos) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
+            for (Medico m : medicos) {
+                writer.write(m.toString());
+                for (Cita c : m.getCitas()) {
+                    writer.write("," + c.toString());
+                }
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("No se pudo escribir en el archivo de médicos.");
+        }
+    }
+
+    public void guardarCitas(String ruta, ArrayList<Cita> citas) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
+            for (Cita c : citas) {
+                writer.write(c.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("No se pudo escribir en el archivo de citas.");
+        }
+    }
+
+
+
+    /*public void agregarPaciente(String ruta, Paciente p){
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(ruta,true));
             writer.write(p.toString());
@@ -91,6 +142,9 @@ public class GestorArchivo {
             System.out.println("No se pudo escribir el archivo.");
         }
     }
+
+
+     */
 
     public String devolverFicha(String ruta, String rut){
         try{

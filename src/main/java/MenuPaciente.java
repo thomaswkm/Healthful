@@ -43,7 +43,10 @@ public class MenuPaciente {
             case 3 -> h.solicitarCita(p);
             case 4 -> h.cancelarCita(p);
             case 5 -> h.mostrarCitasAgendadas(p);
-            case 6 -> System.exit(0);
+            case 6 -> {
+                new Menu(new GestorArchivo(),h).guardarCambios();
+                System.exit(0);
+            }
         }
         menu();
     }

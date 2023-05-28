@@ -99,9 +99,23 @@ public class Menu {
         switch (opcionIngresada) {
             case 1 -> menuRegistro();
             case 2 -> login();
-            case 3 -> System.exit(0);
+            case 3 -> {
+                guardarCambios();
+                System.exit(0);
+            }
         }
         inicio();
+    }
+
+    public void guardarCambios() {
+        ArrayList<Usuario> usuarios = h.getUsuarios();
+        ga.guardarUsuarios("usuarios.txt", usuarios);
+        ArrayList<Paciente> pacientes = h.getPacientes();
+        ga.guardarPacientes("pacientes.txt", pacientes);
+        ArrayList<Medico> medicos = h.getMedicos();
+        ga.guardarMedicos("medicos.txt", medicos);
+        ArrayList<Cita> citas = h.getCitas();
+        ga.guardarCitas("citas.txt", citas);
     }
 
     public void menuRegistro() {
@@ -110,16 +124,18 @@ public class Menu {
             h.addUsuario(u);
             System.out.println("Desea registrarse como Paciente o Medico");
             String respuesta = new Scanner(System.in).nextLine();
+            System.out.println("Ingresa tu nombre: ");
+            String nombre = new Scanner(System.in).nextLine();
 
             if(respuesta.equals("Paciente")){
-                Paciente p = new Paciente(u.toString().split(",")[0],u.toString().split(",")[1],new ArrayList<>());
-                ga.agregarPaciente("pacientes.txt",p);
+                Paciente p = new Paciente(u.toString().split(",")[0],nombre,new ArrayList<>());
+                //ga.agregarPaciente("pacientes.txt",p);
                 h.addPaciente(p);
             } else if (respuesta.equals("Medico")) {
                 System.out.println("Ingresa una especialidad: ");
                 String especialidad = new Scanner(System.in).nextLine();
-                Medico m = new Medico(u.toString().split(",")[0],u.toString().split(",")[1],especialidad,new ArrayList<>());
-                ga.agregarMedico("medicos.txt",m);
+                Medico m = new Medico(u.toString().split(",")[0],nombre,especialidad,new ArrayList<>());
+                //ga.agregarMedico("medicos.txt",m);
                 h.addMedico(m);
             }
         }
