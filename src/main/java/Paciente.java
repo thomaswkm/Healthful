@@ -14,7 +14,6 @@ public class Paciente {
     public Paciente() {
     }
 
-
     public String getRut() {
         return rut;
     }
@@ -42,7 +41,7 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return rut + "," + nombre + "," + citas;
+        return rut + "," + nombre;
     }
 
 }

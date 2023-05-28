@@ -41,7 +41,7 @@ public class Healthful {
     }
 
     public void removeCita(Cita c){
-        if(citas.indexOf(c)!=1){
+        if(citas.contains(c)){
             citas.remove(c);
         }else {
             System.out.println("La cita elegida no está registrada.");
@@ -71,7 +71,7 @@ public class Healthful {
 
     public void agregarCita(Medico medico, Paciente p, int dia, int mes ,int year, int hora, int minutos){
         if (medico != null) {
-            Cita c = new Cita(p, medico, dia, mes, year, hora, minutos);
+            Cita c = new Cita(p.getRut(), medico.getRut(), dia, mes, year, hora, minutos);
             if (!citas.contains(c)) {
                 citas.add(c);
             } else {
@@ -101,7 +101,7 @@ public class Healthful {
         removeCita(p.getCitas().get(new Scanner(System.in).nextInt()));
     }
 
-    public void mostrarFichaPacientes() {
+    public void mostrarFichaPaciente() {
         System.out.println("Ingresa el rut del paciente");
         System.out.println(new GestorArchivo().devolverFicha("pacientes.txt",new Scanner(System.in).nextLine()));
 
