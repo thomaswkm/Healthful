@@ -1,8 +1,10 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Healthful {
 
+    private ArrayList<Usuario> usuarios;
     private ArrayList<Paciente> pacientes;
     private ArrayList<Medico> medicos;
     private ArrayList<Cita> citas;
@@ -10,7 +12,8 @@ public class Healthful {
     public Healthful() {
     }
 
-    public Healthful(ArrayList<Paciente> pacientes, ArrayList<Medico> medicos, ArrayList<Cita> citas) {
+    public Healthful(ArrayList<Usuario> usuarios, ArrayList<Paciente> pacientes, ArrayList<Medico> medicos, ArrayList<Cita> citas) {
+        this.usuarios = usuarios;
         this.pacientes = pacientes;
         this.medicos = medicos;
         this.citas = citas;
@@ -39,6 +42,10 @@ public class Healthful {
     public void addCita(Cita c){
         citas.add(c);
     }
+    public void addUsuario(Usuario u) {
+        usuarios.add(u);
+    }
+
 
     public void removeCita(Cita c){
         if(citas.contains(c)){
@@ -74,6 +81,7 @@ public class Healthful {
             Cita c = new Cita(p.getRut(), medico.getRut(), dia, mes, year, hora, minutos);
             if (!citas.contains(c)) {
                 citas.add(c);
+                new GestorArchivo().agregarCita("citas.txt",c);
             } else {
                 System.out.println("La cita ya fue registrada.");
             }
