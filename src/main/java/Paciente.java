@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Paciente {
     private String rut;
     private String nombre;
-    private ArrayList<Cita> citas = new ArrayList<Cita>();
+    private ArrayList<Cita> citas = new ArrayList<>();
 
     public Paciente(String rut, String nombre, ArrayList<Cita> citas) {
         this.rut = rut;
@@ -18,11 +18,6 @@ public class Paciente {
     public String getRut() {
         return rut;
     }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
 
     public String getNombre() {
         return nombre;

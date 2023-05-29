@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class MenuPaciente {
     private Paciente p;
     private Healthful h;
-
     public MenuPaciente() {
     }
 

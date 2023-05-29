@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Healthful {
-
     private ArrayList<Paciente> pacientes;
     private ArrayList<Medico> medicos;
     private ArrayList<Cita> citas;
@@ -28,24 +27,25 @@ public class Healthful {
         return citas;
     }
 
-    public void addPaciente(Paciente p){
+    public void addPaciente(Paciente p) {
         pacientes.add(p);
     }
 
-    public void addMedico(Medico m){
+    public void addMedico(Medico m) {
         medicos.add(m);
     }
 
-    public void addCita(Cita c){
+    public void addCita(Cita c) {
         citas.add(c);
     }
 
-    public void removeCita(Cita c){
-        if(citas.indexOf(c)!=1){
-            citas.remove(c);
-        }else {
+    public void removeCita(Cita c) {
+        if (citas.indexOf(c) == 1) {
             System.out.println("La cita elegida no está registrada.");
+            return;
         }
+        citas.remove(c);
+
     }
 
     public void mostrarMedicos() {
@@ -66,10 +66,10 @@ public class Healthful {
         int minutos = sc.nextInt();
         System.out.println("Ingrese el rut del médico: ");
         String rut = sc.next();
-        agregarCita(obtenerMedico(rut),p,dia,mes,year,hora,minutos);
+        agregarCita(obtenerMedico(rut), p, dia, mes, year, hora, minutos);
     }
 
-    public void agregarCita(Medico medico, Paciente p, int dia, int mes ,int year, int hora, int minutos){
+    public void agregarCita(Medico medico, Paciente p, int dia, int mes, int year, int hora, int minutos) {
         if (medico != null) {
             Cita c = new Cita(p, medico, dia, mes, year, hora, minutos);
             if (!citas.contains(c)) {
@@ -84,13 +84,14 @@ public class Healthful {
 
 
     public Medico obtenerMedico(String rut) {
-        for (Medico m: medicos) {
-            if (m.getRut().equals(rut)){
+        for (Medico m : medicos) {
+            if (m.getRut().equals(rut)) {
                 return m;
             }
         }
         return null;
     }
+
     public void mostrarCitasAgendadas(Paciente p) {
         System.out.println(p.getCitas());
     }
@@ -103,7 +104,7 @@ public class Healthful {
 
     public void mostrarFichaPacientes() {
         System.out.println("Ingresa el rut del paciente");
-        System.out.println(new GestorArchivo().devolverFicha("pacientes.txt",new Scanner(System.in).nextLine()));
+        System.out.println(new GestorArchivo().devolverFicha("pacientes.txt", new Scanner(System.in).nextLine()));
 
     }
 

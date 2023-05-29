@@ -1,12 +1,10 @@
 import java.util.ArrayList;
 
 public class Medico {
-
     private String rut;
-
     private String nombre;
     private String especialidad;
-    private ArrayList<String> horas = new ArrayList<String>();
+    private ArrayList<String> horas = new ArrayList<>();
 
     public Medico(String rut, String nombre, String especialidad, ArrayList<String> horas) {
         this.rut = rut;
@@ -21,11 +19,6 @@ public class Medico {
     public String getRut() {
         return rut;
     }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
 
     public String getNombre() {
         return nombre;

@@ -5,12 +5,14 @@ import java.util.Scanner;
 public class HealthfulOld {
     public static void main(String[] args) {
         //Para esta versión, primer indice corresponde a RUT, segundo a contraseña, rol usuario.
-        String[][] usuarios = {
-                {"203672403", "thomas123", "Medico"},
-                {"21423562k", "testpassw", "Paciente"},
-                {"185623510", "pass2", "Medico"}
-        };
-        login(usuarios);
+//        String[][] usuarios = {
+//                {"203672403", "thomas123", "Medico"},
+//                {"21423562k", "testpassw", "Paciente"},
+//                {"185623510", "pass2", "Medico"}
+//        };
+//        login(usuarios);
+
+        System.out.println(new GestorArchivo().leerArchivo("src/main/resources/usuarios.csv"));
     }
 
     public static void login(String[][] usuarios) {

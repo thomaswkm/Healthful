@@ -2,10 +2,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuMedico {
-
     private Medico m;
     private Healthful h;
-
     public MenuMedico() {
     }
 
