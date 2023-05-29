@@ -39,6 +39,15 @@ public class Cita {
     public int getMinuto() {
         return fechaHora.getMinute();
     }
+
+    public String getRutPaciente(){
+        return rutPaciente;
+    }
+    public String getRutMedico(){
+        return rutMedico;
+    }
+
+
     @Override
     public String toString() {
         return rutPaciente+","+rutMedico+","+fechaHora.getDayOfMonth()+","+fechaHora.getMonthValue()+","+fechaHora.getYear()+","+fechaHora.getHour()+","+fechaHora.getMinute();

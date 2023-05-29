@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Healthful {
 
+    private ArrayList<Usuario> usuarios;
     private ArrayList<Paciente> pacientes;
     private ArrayList<Medico> medicos;
     private ArrayList<Cita> citas;
@@ -10,7 +12,8 @@ public class Healthful {
     public Healthful() {
     }
 
-    public Healthful(ArrayList<Paciente> pacientes, ArrayList<Medico> medicos, ArrayList<Cita> citas) {
+    public Healthful(ArrayList<Usuario> usuarios, ArrayList<Paciente> pacientes, ArrayList<Medico> medicos, ArrayList<Cita> citas) {
+        this.usuarios = usuarios;
         this.pacientes = pacientes;
         this.medicos = medicos;
         this.citas = citas;
@@ -28,6 +31,10 @@ public class Healthful {
         return citas;
     }
 
+    public ArrayList<Usuario> getUsuarios(){
+        return usuarios;
+    }
+
     public void addPaciente(Paciente p){
         pacientes.add(p);
     }
@@ -39,13 +46,8 @@ public class Healthful {
     public void addCita(Cita c){
         citas.add(c);
     }
-
-    public void removeCita(Cita c){
-        if(citas.contains(c)){
-            citas.remove(c);
-        }else {
-            System.out.println("La cita elegida no está registrada.");
-        }
+    public void addUsuario(Usuario u) {
+        usuarios.add(u);
     }
 
     public void mostrarMedicos() {
@@ -53,20 +55,25 @@ public class Healthful {
     }
 
     public void solicitarCita(Paciente p) {
+        int dia = 0; int mes = 0; int year = 0; int hora = 0; int minuto = 0; String rut = "";
         Scanner sc = new Scanner(System.in);
-        System.out.println("Ingrese el día: ");
-        int dia = sc.nextInt();
-        System.out.println("Ingrese el número del mes: ");
-        int mes = sc.nextInt();
-        System.out.println("Ingrese el año: ");
-        int year = sc.nextInt();
-        System.out.println("Ingrese la hora del día: ");
-        int hora = sc.nextInt();
-        System.out.println("Ingrese los minutos: ");
-        int minutos = sc.nextInt();
-        System.out.println("Ingrese el rut del médico: ");
-        String rut = sc.next();
-        agregarCita(obtenerMedico(rut),p,dia,mes,year,hora,minutos);
+        try {
+            System.out.println("Ingrese el día: ");
+            dia = sc.nextInt();
+            System.out.println("Ingrese el número del mes: ");
+            mes = sc.nextInt();
+            System.out.println("Ingrese el año: ");
+            year = sc.nextInt();
+            System.out.println("Ingrese la hora del día: ");
+            hora = sc.nextInt();
+            System.out.println("Ingrese los minutos: ");
+            minuto = sc.nextInt();
+            System.out.println("Ingrese el rut del médico: ");
+            rut = sc.next();
+        }catch (Exception e){
+            System.out.println("Error al ingresar los datos");
+        }
+        agregarCita(obtenerMedico(rut),p,dia,mes,year,hora,minuto);
     }
 
     public void agregarCita(Medico medico, Paciente p, int dia, int mes ,int year, int hora, int minutos){
@@ -74,6 +81,8 @@ public class Healthful {
             Cita c = new Cita(p.getRut(), medico.getRut(), dia, mes, year, hora, minutos);
             if (!citas.contains(c)) {
                 citas.add(c);
+                p.addCita(c);
+                medico.addCita(c);
             } else {
                 System.out.println("La cita ya fue registrada.");
             }
@@ -91,6 +100,16 @@ public class Healthful {
         }
         return null;
     }
+
+    public Paciente obtenerPaciente(String rut) {
+        for (Paciente p: pacientes){
+            if(p.getRut().equals(rut)){
+                return p;
+            }
+        }
+        return null;
+    }
+
     public void mostrarCitasAgendadas(Paciente p) {
         System.out.println(p.getCitas());
     }
@@ -98,7 +117,24 @@ public class Healthful {
     public void cancelarCita(Paciente p) {
         System.out.println(p.getCitas());
         System.out.println("Elige el numero de cita a borrar");
-        removeCita(p.getCitas().get(new Scanner(System.in).nextInt()));
+        int ans = new Scanner(System.in).nextInt();
+        Cita c = p.getCitas().get(ans);
+        removeCita(p,obtenerMedico(p.getCitas().get(ans).getRutMedico()),c);
+    }
+
+    public void removeCita(Paciente p, Medico m, Cita c){
+        this.citas.remove(c);
+        p.removeCita(c);
+        m.removeCita(c);
+
+    }
+
+    public void removeCita(Medico m, Cita c){
+        this.citas.remove(c);
+        Paciente p = obtenerPaciente(c.getRutPaciente());
+        p.removeCita(c);
+        m.removeCita(c);
+
     }
 
     public void mostrarFichaPaciente() {
