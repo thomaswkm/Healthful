@@ -2,14 +2,13 @@ import java.time.LocalDateTime;
 
 public class Cita {
     private LocalDateTime fechaHora;
-    private Paciente p;
-    private Medico m;
-
+    private String rutPaciente;
+    private String rutMedico;
     public Cita() {
         fechaHora = LocalDateTime.now();
     }
 
-    public Cita(Paciente p, Medico m, int dia, int mes, int year, int hora, int minuto) {
+    public Cita(String rutPaciente, String rutMedico, int dia, int mes, int year, int hora, int minuto) {
         LocalDateTime fechaHoraActual = LocalDateTime.now();
         LocalDateTime fechaHoraPropuesta = LocalDateTime.of(year, mes, dia, hora, minuto);
 
@@ -17,8 +16,8 @@ public class Cita {
             throw new IllegalArgumentException("No puedes crear una cita en una fecha pasada.");
         }
         fechaHora = fechaHoraPropuesta;
-        this.p = p;
-        this.m = m;
+        this.rutPaciente = rutPaciente;
+        this.rutMedico = rutMedico;
     }
 
     public int getDia() {
@@ -42,6 +41,6 @@ public class Cita {
     }
     @Override
     public String toString() {
-        return "Fecha y hora: " + fechaHora + "Paciente: "+p+" Medico: "+m;
+        return rutPaciente+","+rutMedico+","+fechaHora.getDayOfMonth()+","+fechaHora.getMonthValue()+","+fechaHora.getYear()+","+fechaHora.getHour()+","+fechaHora.getMinute();
     }
 }

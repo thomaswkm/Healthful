@@ -37,7 +37,7 @@ public class MenuMedico {
 
     public void procesarOpcionIngresada(int opcionIngresada) {
         switch (opcionIngresada) {
-            case 1 -> h.mostrarFichaPacientes();
+            case 1 -> h.mostrarFichaPaciente();
             case 2 -> System.exit(0);
         }
         menu();

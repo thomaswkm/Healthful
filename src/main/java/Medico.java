@@ -1,16 +1,18 @@
 import java.util.ArrayList;
 
 public class Medico {
+
     private String rut;
+
     private String nombre;
     private String especialidad;
-    private ArrayList<String> horas = new ArrayList<>();
+    private ArrayList<Cita> citas = new ArrayList<Cita>();
 
-    public Medico(String rut, String nombre, String especialidad, ArrayList<String> horas) {
+    public Medico(String rut, String nombre, String especialidad, ArrayList<Cita> citas) {
         this.rut = rut;
         this.nombre = nombre;
         this.especialidad = especialidad;
-        this.horas = horas;
+        this.citas = citas;
     }
 
     public Medico() {
@@ -18,6 +20,10 @@ public class Medico {
 
     public String getRut() {
         return rut;
+    }
+
+    public void setRut(String rut) {
+        this.rut = rut;
     }
 
     public String getNombre() {
@@ -36,17 +42,17 @@ public class Medico {
         this.especialidad = especialidad;
     }
 
-    public ArrayList<String> getHoras() {
-        return horas;
+    public ArrayList<Cita> getCitas() {
+        return citas;
     }
 
     public void setHoras(ArrayList<String> horas) {
-        this.horas = horas;
+        this.citas = citas;
     }
 
     @Override
     public String toString() {
-        return rut+","+nombre+","+especialidad+","+horas;
+        return rut+","+nombre+","+especialidad;
     }
 
 
