@@ -119,7 +119,17 @@ public class Menu {
         if(ga.registrarUsuario(u)){
             h.addUsuario(u);
             System.out.println("Desea registrarse como Paciente o Medico");
-            String respuesta = new Scanner(System.in).nextLine();
+
+            Scanner scanner = new Scanner(System.in);
+            String respuesta = "";
+
+            while (!respuesta.equalsIgnoreCase("Paciente") && !respuesta.equalsIgnoreCase("Medico")) {
+                respuesta = scanner.nextLine();
+
+                if (!respuesta.equalsIgnoreCase("Paciente") && !respuesta.equalsIgnoreCase("Medico")) {
+                    System.out.println("Opción inválida. Por favor, ingrese 'Paciente' o 'Medico'.");
+                }
+            }
             System.out.println("Ingresa tu nombre: ");
             String nombre = new Scanner(System.in).nextLine();
 

@@ -130,7 +130,7 @@ public class GestorArchivo {
 
                 for (int i = 2; i < data.length; i+=7) {
 
-                     citas.add(new Cita(data[i],data[i+1],Integer.parseInt(data[i+2]),Integer.parseInt(data[i+3]),Integer.parseInt(data[i+4]),Integer.parseInt(data[i+5]),Integer.parseInt(data[i+6])));
+                    citas.add(new Cita(data[i],data[i+1],Integer.parseInt(data[i+2]),Integer.parseInt(data[i+3]),Integer.parseInt(data[i+4]),Integer.parseInt(data[i+5]),Integer.parseInt(data[i+6])));
                 }
 
                 Paciente paciente = new Paciente(data[0], data[1], citas);
@@ -153,12 +153,10 @@ public class GestorArchivo {
             while (line != null) {
                 String[] data = line.split(",");
                 ArrayList<Cita> citas = new ArrayList<>();
-
                 for (int i = 3; i < data.length; i+=7) {
 
                     citas.add(new Cita(data[i],data[i+1],Integer.parseInt(data[i+2]),Integer.parseInt(data[i+3]),Integer.parseInt(data[i+4]),Integer.parseInt(data[i+5]),Integer.parseInt(data[i+6])));
                 }
-
                 Medico medico = new Medico(data[0], data[1], data[2],citas);
                 medicos.add(medico);
                 line = reader.readLine();
@@ -203,6 +201,5 @@ public class GestorArchivo {
             System.out.println("No se pudo leer el archivo.");
         }
         return usuarios;
-     }
     }
-
+}

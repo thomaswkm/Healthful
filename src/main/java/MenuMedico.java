@@ -16,7 +16,7 @@ public class MenuMedico {
 
     public void menu() {
         System.out.println(textoMenu());
-        procesarOpcionIngresada(ingresarOpcion(2));
+        procesarOpcionIngresada(ingresarOpcion(3));
     }
 
     public int ingresarOpcion(int cantidadOpciones) {
@@ -40,7 +40,8 @@ public class MenuMedico {
     public void procesarOpcionIngresada(int opcionIngresada) {
         switch (opcionIngresada) {
             case 1 -> h.mostrarFichaPaciente();
-            case 2 -> {
+            case 2 -> h.cancelarCita(new Paciente());
+            case 3 -> {
                 new Menu(new GestorArchivo(),h).guardarCambios();
                 System.exit(0);
             }
@@ -52,7 +53,8 @@ public class MenuMedico {
         return """
                 Bienvenido, elija una opción:
                 1. Mostrar ficha paciente.
-                2. Salir
+                2. Cancelar cita.
+                3. Salir
                 -> Ingrese una opcion:""";
     }
 }
