@@ -1,18 +1,14 @@
+package main;
+
+import data.GestorArchivo;
+
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class HealthfulOld {
     public static void main(String[] args) {
-        //Para esta versión, primer indice corresponde a RUT, segundo a contraseña, rol usuario.
-//        String[][] usuarios = {
-//                {"203672403", "thomas123", "Medico"},
-//                {"21423562k", "testpassw", "Paciente"},
-//                {"185623510", "pass2", "Medico"}
-//        };
-//        login(usuarios);
-
-        System.out.println(new GestorArchivo().leerArchivo("src/main/resources/usuarios.csv"));
+        System.out.println(GestorArchivo.leerArchivo("src/main/resources/usuarios.csv"));
     }
 
     public static void login(String[][] usuarios) {
@@ -20,7 +16,7 @@ public class HealthfulOld {
         String[] usuario = buscarUsuarioPorRut(usuarios, rut);
 
         if (usuarioNoEstaRegistrado(usuario)) {
-            System.out.println("Usuario no registrado");
+            System.out.println("model.Usuario no registrado");
             login(usuarios);
             return;
         }
@@ -36,7 +32,7 @@ public class HealthfulOld {
     }
 
     private static void mostrarMenuSegunRolUsuario(String[] usuario) {
-        if (usuario[2].equals("Medico")) {
+        if (usuario[2].equals("model.Medico")) {
             menuPersonal(usuario);
         } else {
             menuPaciente(usuario);

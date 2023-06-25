@@ -1,15 +1,18 @@
+package model;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuPaciente {
-    private Paciente p;
-    private Healthful h;
+    private Paciente paciente;
+    private Healthful healthful;
+
     public MenuPaciente() {
     }
 
-    public MenuPaciente(Paciente p, Healthful h) {
-        this.p = p;
-        this.h = h;
+    public MenuPaciente(Paciente paciente, Healthful healthful) {
+        this.paciente = paciente;
+        this.healthful = healthful;
     }
 
     public void menu() {
@@ -35,15 +38,15 @@ public class MenuPaciente {
         return opcionIngresada;
     }
 
-   public void procesarOpcionIngresada(int opcionIngresada) {
+    public void procesarOpcionIngresada(int opcionIngresada) {
         switch (opcionIngresada) {
-            case 1 -> h.mostrarHorasDisponibles();
-            case 2 -> h.mostrarMedicos();
-            case 3 -> h.solicitarCita(p);
-            case 4 -> h.cancelarCita(p);
-            case 5 -> h.mostrarCitasAgendadas(p);
+            case 1 -> healthful.mostrarHorasDisponibles();
+            case 2 -> healthful.mostrarMedicos();
+            case 3 -> healthful.solicitarCita(paciente);
+            case 4 -> healthful.cancelarCita(paciente);
+            case 5 -> healthful.mostrarCitasAgendadas(paciente);
             case 6 -> {
-                new Menu(new GestorArchivo(),h).guardarCambios();
+                new Menu(healthful).guardarCambios();
                 System.exit(0);
             }
         }
@@ -62,4 +65,3 @@ public class MenuPaciente {
                 -> Ingrese una opcion:""";
     }
 }
-

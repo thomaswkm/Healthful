@@ -1,13 +1,33 @@
-import java.io.*;
+package data;
+
+import model.Cita;
+import model.Healthful;
+import model.Medico;
+import model.Paciente;
+import model.Usuario;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class GestorArchivo {
-
-
-    public GestorArchivo(){
+    public static String leerArchivo(String ruta) {
+        Path archivo = Path.of(ruta);
+        String contenido = "";
+        try {
+            contenido = Files.readString(archivo);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return contenido;
     }
 
-    public boolean comprobarUsuario(String rut) {
+    public static boolean comprobarUsuario(String rut) {
         try (BufferedReader reader = new BufferedReader(new FileReader("usuarios.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -21,9 +41,9 @@ public class GestorArchivo {
         return true;
     }
 
-    public boolean registrarUsuario(Usuario u) {
-        if (!comprobarUsuario(u.toString().split(",")[0])) {
-            System.out.println("Usuario ya registrado");
+    public static boolean registrarUsuario(Usuario u) {
+        if (!GestorArchivo.comprobarUsuario(u.toString().split(",")[0])) {
+            System.out.println("model.Usuario ya registrado");
             return false;
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("usuarios.txt", true))) {
@@ -35,13 +55,12 @@ public class GestorArchivo {
         return true;
     }
 
-
-    public boolean login(Usuario u) {
+    public static boolean login(Usuario u) {
         try (BufferedReader reader = new BufferedReader(new FileReader("usuarios.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (u.verificacion(parts[0],parts[1])) {
+                if (u.verificacion(parts[0], parts[1])) {
                     return true;
                 }
             }
@@ -52,7 +71,7 @@ public class GestorArchivo {
         return false;
     }
 
-    public void guardarUsuarios(String ruta, Healthful h) {
+    public static void guardarUsuarios(String ruta, Healthful h) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
             for (Usuario u : h.getUsuarios()) {
                 writer.write(u.toString());
@@ -63,7 +82,7 @@ public class GestorArchivo {
         }
     }
 
-    public void guardarPacientes(String ruta, Healthful h) {
+    public static void guardarPacientes(String ruta, Healthful h) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
             for (Paciente p : h.getPacientes()) {
                 writer.write(p.toString());
@@ -77,7 +96,7 @@ public class GestorArchivo {
         }
     }
 
-    public void guardarMedicos(String ruta, Healthful h) {
+    public static void guardarMedicos(String ruta, Healthful h) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
             for (Medico m : h.getMedicos()) {
                 writer.write(m.toString());
@@ -91,7 +110,7 @@ public class GestorArchivo {
         }
     }
 
-    public void guardarCitas(String ruta, Healthful h) {
+    public static void guardarCitas(String ruta, Healthful h) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
             for (Cita c : h.getCitas()) {
                 writer.write(c.toString());
@@ -102,23 +121,23 @@ public class GestorArchivo {
         }
     }
 
-    public String devolverFicha(String ruta, String rut){
-        try{
+    public static String devolverFicha(String ruta, String rut) {
+        try {
             BufferedReader reader = new BufferedReader(new FileReader(ruta));
             String line = reader.readLine();
             while (line != null) {
                 line = reader.readLine();
-                if(line.split(",")[0].equals(rut)){
-                    return line.split(",")[0]+line.split(",")[1];
+                if (line.split(",")[0].equals(rut)) {
+                    return line.split(",")[0] + line.split(",")[1];
                 }
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("No se pudo leer el archivo");
         }
         return "El paciente no está registrado";
     }
 
-    public ArrayList<Paciente> leerPacientes(String ruta) {
+    public static ArrayList<Paciente> leerPacientes(String ruta) {
         ArrayList<Paciente> pacientes = new ArrayList<>();
 
         try {
@@ -128,9 +147,9 @@ public class GestorArchivo {
                 String[] data = line.split(",");
                 ArrayList<Cita> citas = new ArrayList<>();
 
-                for (int i = 2; i < data.length; i+=7) {
+                for (int i = 2; i < data.length; i += 7) {
 
-                    citas.add(new Cita(data[i],data[i+1],Integer.parseInt(data[i+2]),Integer.parseInt(data[i+3]),Integer.parseInt(data[i+4]),Integer.parseInt(data[i+5]),Integer.parseInt(data[i+6])));
+                    citas.add(new Cita(data[i], data[i + 1], Integer.parseInt(data[i + 2]), Integer.parseInt(data[i + 3]), Integer.parseInt(data[i + 4]), Integer.parseInt(data[i + 5]), Integer.parseInt(data[i + 6])));
                 }
 
                 Paciente paciente = new Paciente(data[0], data[1], citas);
@@ -144,7 +163,7 @@ public class GestorArchivo {
         return pacientes;
     }
 
-    public ArrayList<Medico> leerMedicos(String ruta) {
+    public static ArrayList<Medico> leerMedicos(String ruta) {
         ArrayList<Medico> medicos = new ArrayList<>();
 
         try {
@@ -153,11 +172,11 @@ public class GestorArchivo {
             while (line != null) {
                 String[] data = line.split(",");
                 ArrayList<Cita> citas = new ArrayList<>();
-                for (int i = 3; i < data.length; i+=7) {
+                for (int i = 3; i < data.length; i += 7) {
 
-                    citas.add(new Cita(data[i],data[i+1],Integer.parseInt(data[i+2]),Integer.parseInt(data[i+3]),Integer.parseInt(data[i+4]),Integer.parseInt(data[i+5]),Integer.parseInt(data[i+6])));
+                    citas.add(new Cita(data[i], data[i + 1], Integer.parseInt(data[i + 2]), Integer.parseInt(data[i + 3]), Integer.parseInt(data[i + 4]), Integer.parseInt(data[i + 5]), Integer.parseInt(data[i + 6])));
                 }
-                Medico medico = new Medico(data[0], data[1], data[2],citas);
+                Medico medico = new Medico(data[0], data[1], data[2], citas);
                 medicos.add(medico);
                 line = reader.readLine();
             }
@@ -168,36 +187,35 @@ public class GestorArchivo {
         return medicos;
     }
 
-    public ArrayList<Cita> leerCitas(String ruta){
+    public static ArrayList<Cita> leerCitas(String ruta) {
         ArrayList<Cita> citas = new ArrayList<>();
-        try{
+        try {
             BufferedReader reader = new BufferedReader(new FileReader(ruta));
             String line = reader.readLine();
-            while(line != null){
+            while (line != null) {
                 String[] data = line.split(",");
-                citas.add(new Cita(data[0],data[1],Integer.parseInt(data[2]),Integer.parseInt(data[3]),Integer.parseInt(data[4]),Integer.parseInt(data[5]),Integer.parseInt(data[6])));
+                citas.add(new Cita(data[0], data[1], Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
                 line = reader.readLine();
             }
             reader.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("No se pudo leer el archivo.");
         }
         return citas;
     }
 
-
-    public ArrayList<Usuario> leerUsuarios(String ruta) {
-        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-        try{
+    public static ArrayList<Usuario> leerUsuarios(String ruta) {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        try {
             BufferedReader reader = new BufferedReader(new FileReader(ruta));
             String line = reader.readLine();
-            while(line != null){
+            while (line != null) {
                 String[] data = line.split(",");
-                usuarios.add(new Usuario(data[0],data[1]));
+                usuarios.add(new Usuario(data[0], data[1]));
                 line = reader.readLine();
             }
             reader.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("No se pudo leer el archivo.");
         }
         return usuarios;

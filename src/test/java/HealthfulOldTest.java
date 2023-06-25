@@ -1,3 +1,4 @@
+import main.HealthfulOld;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,9 +12,9 @@ class HealthfulOldTest {
     @BeforeEach
     void setUp() {
         usuarios = new String[][]{
-                {"203672403", "thomas123", "Medico"},
-                {"21423562k", "testpassw", "Paciente"},
-                {"185623510", "pass2", "Medico"}
+                {"203672403", "thomas123", "model.Medico"},
+                {"21423562k", "testpassw", "model.Paciente"},
+                {"185623510", "pass2", "model.Medico"}
         };
     }
 
@@ -23,7 +24,7 @@ class HealthfulOldTest {
 
         String[] usuarioExistenteReal = HealthfulOld.buscarUsuarioPorRut(usuarios, rutUsuario);
 
-        String[] usuarioExistenteEsperado = {"203672403", "thomas123", "Medico"};
+        String[] usuarioExistenteEsperado = {"203672403", "thomas123", "model.Medico"};
 
         assertArrayEquals(usuarioExistenteEsperado, usuarioExistenteReal);
     }

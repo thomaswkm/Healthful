@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 public class Paciente {
@@ -18,33 +20,15 @@ public class Paciente {
         return rut;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public ArrayList<Cita> getCitas() {
         return citas;
     }
 
-    public void setCitas(ArrayList<Cita> horas) {
-        this.citas = horas;
-    }
-
-    public void addCita(Cita c){
+    public void addCita(Cita c) {
         citas.add(c);
     }
 
-    public void removeCita(Cita c){
+    public void removeCita(Cita c) {
         citas.remove(c);
     }
-
-    @Override
-    public String toString() {
-        return rut + "," + nombre;
-    }
-
 }

@@ -1,7 +1,7 @@
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ class HealthfulTest {
         usuario2 = new Usuario("203721803","123");
         paciente = new Paciente("204036712","nombrePaciente",new ArrayList<>());
         medico = new Medico("203721803","nombreMedico","n/a",new ArrayList<>());
-        cita = new Cita(paciente.getRut(),medico.getRut(),30,06,2023,14,30);
+        cita = new Cita(paciente.getRut(),medico.getRut(),30, 6,2023,14,30);
         healthful.addUsuario(usuario1);
         healthful.addUsuario(usuario2);
         healthful.addPaciente(paciente);
@@ -53,7 +53,6 @@ class HealthfulTest {
     void addUsuario() {
         healthful.addUsuario(usuario1);
         assertTrue(healthful.getUsuarios().contains(usuario1));
-        assertFalse(healthful.getUsuarios().contains(usuario2));
     }
 
     @Test

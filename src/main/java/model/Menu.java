@@ -1,14 +1,16 @@
+package model;
+
+import data.GestorArchivo;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
-    private Healthful h;
-    private GestorArchivo ga;
+    private final Healthful h;
     private String rut;
 
-    public Menu(GestorArchivo ga, Healthful h){
-        this.ga = ga;
+    public Menu(Healthful h) {
         this.h = h;
     }
 
@@ -17,8 +19,8 @@ public class Menu {
         procesarOpcionIngresada(ingresarOpcion(3));
     }
 
-    public void login(){
-        if (ga.login(ingresarDatos())) {
+    public void login() {
+        if (GestorArchivo.login(ingresarDatos())) {
             verificarRol(rut);
         } else {
             inicio();
@@ -26,10 +28,10 @@ public class Menu {
     }
 
     public void verificarRol(String rut) {
-        if(existePacienteConRut(rut)!=null){
-            new MenuPaciente(existePacienteConRut(rut),h).menu();
-        } else if (existeMedicoConRut(rut)!=null) {
-            new MenuMedico(existeMedicoConRut(rut),h).menu();
+        if (existePacienteConRut(rut) != null) {
+            new MenuPaciente(existePacienteConRut(rut), h).menu();
+        } else if (existeMedicoConRut(rut) != null) {
+            new MenuMedico(existeMedicoConRut(rut), h).menu();
         }
     }
 
@@ -38,7 +40,7 @@ public class Menu {
         this.rut = rut;
         System.out.println("Ingresa tu contraseña: ");
         String contraseña = new Scanner(System.in).nextLine();
-        return new Usuario(rut,contraseña);
+        return new Usuario(rut, contraseña);
     }
 
     public String solicitarRut() {
@@ -59,6 +61,7 @@ public class Menu {
         }
         return rut;
     }
+
     public Paciente existePacienteConRut(String rut) {
         for (Paciente paciente : h.getPacientes()) {
             if (paciente.getRut().equals(rut)) {
@@ -108,15 +111,15 @@ public class Menu {
     }
 
     public void guardarCambios() {
-        ga.guardarUsuarios("usuarios.txt", h);
-        ga.guardarPacientes("pacientes.txt", h);
-        ga.guardarMedicos("medicos.txt", h);
-        ga.guardarCitas("citas.txt", h);
+        GestorArchivo.guardarUsuarios("usuarios.txt", h);
+        GestorArchivo.guardarPacientes("pacientes.txt", h);
+        GestorArchivo.guardarMedicos("medicos.txt", h);
+        GestorArchivo.guardarCitas("citas.txt", h);
     }
 
     public void menuRegistro() {
         Usuario u = ingresarDatos();
-        if(ga.registrarUsuario(u)){
+        if (GestorArchivo.registrarUsuario(u)) {
             h.addUsuario(u);
             System.out.println("Desea registrarse como Paciente o Medico");
 
@@ -133,19 +136,19 @@ public class Menu {
             System.out.println("Ingresa tu nombre: ");
             String nombre = new Scanner(System.in).nextLine();
 
-            if(respuesta.equals("Paciente")){
-                Paciente p = new Paciente(u.toString().split(",")[0],nombre,new ArrayList<>());
+            if (respuesta.equals("Paciente")) {
+                Paciente p = new Paciente(u.toString().split(",")[0], nombre, new ArrayList<>());
                 h.addPaciente(p);
             } else if (respuesta.equals("Medico")) {
                 System.out.println("Ingresa una especialidad: ");
                 String especialidad = new Scanner(System.in).nextLine();
-                Medico m = new Medico(u.toString().split(",")[0],nombre,especialidad,new ArrayList<>());
+                Medico m = new Medico(u.toString().split(",")[0], nombre, especialidad, new ArrayList<>());
                 h.addMedico(m);
             }
         }
     }
 
-    public String textoInicio(){
+    public String textoInicio() {
         return """
                 Bienvenido a Healthful. Seleccione una opción:
                 1. Registrarse
