@@ -30,7 +30,7 @@ public class Paciente {
         return citas;
     }
 
-    public void setHoras(ArrayList<Cita> horas) {
+    public void setCitas(ArrayList<Cita> horas) {
         this.citas = horas;
     }
 
