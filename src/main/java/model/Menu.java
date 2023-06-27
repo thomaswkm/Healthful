@@ -2,16 +2,15 @@ package model;
 
 import data.GestorArchivo;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
-    private final Healthful h;
+    private final Healthful healthful;
     private String rut;
 
-    public Menu(Healthful h) {
-        this.h = h;
+    public Menu(Healthful healthful) {
+        this.healthful = healthful;
     }
 
     public void inicio() {
@@ -20,18 +19,13 @@ public class Menu {
     }
 
     public void login() {
-        if (GestorArchivo.login(ingresarDatos())) {
-            verificarRol(rut);
-        } else {
-            inicio();
-        }
     }
 
     public void verificarRol(String rut) {
         if (existePacienteConRut(rut) != null) {
-            new MenuPaciente(existePacienteConRut(rut), h).menu();
+            new MenuPaciente(existePacienteConRut(rut), healthful).menu();
         } else if (existeMedicoConRut(rut) != null) {
-            new MenuMedico(existeMedicoConRut(rut), h).menu();
+            new MenuMedico(existeMedicoConRut(rut), healthful).menu();
         }
     }
 
@@ -40,7 +34,7 @@ public class Menu {
         this.rut = rut;
         System.out.println("Ingresa tu contraseña: ");
         String contraseña = new Scanner(System.in).nextLine();
-        return new Usuario(rut, contraseña);
+        return new Usuario(rut, contraseña, Rol.PACIENTE);
     }
 
     public String solicitarRut() {
@@ -63,7 +57,7 @@ public class Menu {
     }
 
     public Paciente existePacienteConRut(String rut) {
-        for (Paciente paciente : h.getPacientes()) {
+        for (Paciente paciente : healthful.getPacientes()) {
             if (paciente.getRut().equals(rut)) {
                 return paciente;
             }
@@ -72,7 +66,7 @@ public class Menu {
     }
 
     public Medico existeMedicoConRut(String rut) {
-        for (Medico medico : h.getMedicos()) {
+        for (Medico medico : healthful.getMedicos()) {
             if (medico.getRut().equals(rut)) {
                 return medico;
             }
@@ -111,41 +105,13 @@ public class Menu {
     }
 
     public void guardarCambios() {
-        GestorArchivo.guardarUsuarios("usuarios.txt", h);
-        GestorArchivo.guardarPacientes("pacientes.txt", h);
-        GestorArchivo.guardarMedicos("medicos.txt", h);
-        GestorArchivo.guardarCitas("citas.txt", h);
+        GestorArchivo.guardarUsuarios("usuarios.txt", healthful);
+        GestorArchivo.guardarPacientes("pacientes.txt", healthful);
+        GestorArchivo.guardarMedicos("medicos.txt", healthful);
+        GestorArchivo.guardarCitas("citas.txt", healthful);
     }
 
     public void menuRegistro() {
-        Usuario u = ingresarDatos();
-        if (GestorArchivo.registrarUsuario(u)) {
-            h.addUsuario(u);
-            System.out.println("Desea registrarse como Paciente o Medico");
-
-            Scanner scanner = new Scanner(System.in);
-            String respuesta = "";
-
-            while (!respuesta.equalsIgnoreCase("Paciente") && !respuesta.equalsIgnoreCase("Medico")) {
-                respuesta = scanner.nextLine();
-
-                if (!respuesta.equalsIgnoreCase("Paciente") && !respuesta.equalsIgnoreCase("Medico")) {
-                    System.out.println("Opción inválida. Por favor, ingrese 'Paciente' o 'Medico'.");
-                }
-            }
-            System.out.println("Ingresa tu nombre: ");
-            String nombre = new Scanner(System.in).nextLine();
-
-            if (respuesta.equals("Paciente")) {
-                Paciente p = new Paciente(u.toString().split(",")[0], nombre, new ArrayList<>());
-                h.addPaciente(p);
-            } else if (respuesta.equals("Medico")) {
-                System.out.println("Ingresa una especialidad: ");
-                String especialidad = new Scanner(System.in).nextLine();
-                Medico m = new Medico(u.toString().split(",")[0], nombre, especialidad, new ArrayList<>());
-                h.addMedico(m);
-            }
-        }
     }
 
     public String textoInicio() {

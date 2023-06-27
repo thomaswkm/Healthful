@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -41,13 +43,15 @@ public class MenuMedico {
     public void procesarOpcionIngresada(int opcionIngresada) {
         switch (opcionIngresada) {
             case 1 -> healthful.mostrarFichaPaciente();
-            case 2 -> healthful.cancelarCita(new Paciente());
-            case 3 -> {
-                new Menu(healthful).guardarCambios();
-                System.exit(0);
-            }
+            case 2 -> new Paciente("", "", "apellido", LocalDate.now(), Sexo.HOMBRE, EstadoCivil.SOLTERO_A, new ArrayList<>()).cancelarCita(healthful);
+            case 3 -> salir();
         }
         menu();
+    }
+
+    private void salir() {
+        new Menu(healthful).guardarCambios();
+        System.exit(0);
     }
 
     public String textoMenu() {

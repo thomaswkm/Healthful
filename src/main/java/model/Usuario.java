@@ -1,19 +1,35 @@
 package model;
 
 public class Usuario {
-    private String rut;
-    private String password;
+    protected String rut;
 
-    public Usuario(String rut, String password) {
+    private String password;
+    private Rol rol;
+
+    public Usuario(String rut, String password, Rol rol) {
         this.rut = rut;
         this.password = password;
+        this.rol = rol;
     }
 
-    public Usuario() {
-
+    protected Usuario(String rut, Rol rol) {
+        this.rut = rut;
+        this.rol = rol;
     }
 
-    public boolean verificacion(String rut, String password) {
-        return this.rut.equals(rut) && this.password.equals(password);
+    public boolean verificacion(String password) {
+        return this.password.equals(password);
+    }
+
+    public String getRut() {
+        return rut;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Rol getRol() {
+        return rol;
     }
 }

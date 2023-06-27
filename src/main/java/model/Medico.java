@@ -1,36 +1,56 @@
 package model;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.util.List;
 
-public class Medico {
-    private String rut;
-    private String nombre;
-    private String especialidad;
-    private ArrayList<Cita> citas = new ArrayList<>();
+public class Medico extends Usuario {
+    private final String nombre;
+    private final String apellido;
+    private final LocalDate fechaNacimiento;
+    private final Sexo sexo;
+    private final EstadoCivil estadoCivil;
+    private final String especialidad;
+    private final List<Cita> citas;
 
-    public Medico(String rut, String nombre, String especialidad, ArrayList<Cita> citas) {
-        this.rut = rut;
+    public Medico(String rut,
+                  String nombre,
+                  String apellido,
+                  LocalDate fechaNacimiento,
+                  Sexo sexo,
+                  EstadoCivil estadoCivil,
+                  String especialidad,
+                  List<Cita> citas) {
+        super(rut, Rol.MEDICO);
         this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.sexo = sexo;
+        this.estadoCivil = estadoCivil;
         this.especialidad = especialidad;
         this.citas = citas;
     }
 
-    public Medico() {
-    }
-
-    public String getRut() {
-        return rut;
-    }
-
-    public ArrayList<Cita> getCitas() {
+    public List<Cita> getCitas() {
         return citas;
     }
 
-    public void addCita(Cita c) {
-        citas.add(c);
+    public void addCita(Cita cita) {
+        citas.add(cita);
     }
 
-    public void removeCita(Cita c) {
-        citas.remove(c);
+    public void removeCita(Cita cita) {
+        citas.remove(cita);
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
     }
 }

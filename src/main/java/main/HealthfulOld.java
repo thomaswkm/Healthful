@@ -1,48 +1,9 @@
 package main;
 
-import data.GestorArchivo;
-
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class HealthfulOld {
-    public static void main(String[] args) {
-        System.out.println(GestorArchivo.leerArchivo("src/main/resources/usuarios.csv"));
-    }
-
-    public static void login(String[][] usuarios) {
-        String rut = solicitarRut();
-        String[] usuario = buscarUsuarioPorRut(usuarios, rut);
-
-        if (usuarioNoEstaRegistrado(usuario)) {
-            System.out.println("model.Usuario no registrado");
-            login(usuarios);
-            return;
-        }
-
-        String password = solicitarPassword();
-        if (noEsPasswordValida(usuario, password)) {
-            System.out.println("La contraseña ingresada no es válida");
-            login(usuarios);
-            return;
-        }
-
-        mostrarMenuSegunRolUsuario(usuario);
-    }
-
-    private static void mostrarMenuSegunRolUsuario(String[] usuario) {
-        if (usuario[2].equals("model.Medico")) {
-            menuPersonal(usuario);
-        } else {
-            menuPaciente(usuario);
-        }
-    }
-
-    public static boolean usuarioNoEstaRegistrado(String[] usuario) {
-        return Arrays.equals(usuario, new String[usuario.length]);
-    }
-
     public static void procesarOpcionIngresadaMenuPaciente(String[] paciente, int opcionIngresada) {
         switch (opcionIngresada) {
             case 1 -> mostrarHorasDisponibles();
@@ -72,32 +33,11 @@ public class HealthfulOld {
         System.exit(0);
     }
 
-    public static String solicitarRut() {
-        System.out.println("Ingrese su RUT (sin puntos ni guión)");
-        String rut = new Scanner(System.in).nextLine();
-
-        try {
-            return validarFormatoRut(rut);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return solicitarRut();
-        }
-    }
-
     public static String validarFormatoRut(String rut) {
         if (!rut.matches("^\\d{7,8}[Kk|\\d]$")) {
             throw new RuntimeException("El formato del RUT no es válido");
         }
         return rut;
-    }
-
-    public static String solicitarPassword() {
-        System.out.println("Ingrese su contraseña");
-        return new Scanner(System.in).nextLine();
-    }
-
-    public static boolean noEsPasswordValida(String[] usuario, String passwordIngresada) {
-        return !usuario[1].equals(passwordIngresada);
     }
 
     public static String[] buscarUsuarioPorRut(String[][] usuarios, String rutIngresado) {

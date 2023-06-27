@@ -42,8 +42,8 @@ public class MenuPaciente {
         switch (opcionIngresada) {
             case 1 -> healthful.mostrarHorasDisponibles();
             case 2 -> healthful.mostrarMedicos();
-            case 3 -> healthful.solicitarCita(paciente);
-            case 4 -> healthful.cancelarCita(paciente);
+            case 3 -> paciente.solicitarCita(healthful);
+            case 4 -> paciente.cancelarCita(healthful);
             case 5 -> healthful.mostrarCitasAgendadas(paciente);
             case 6 -> {
                 new Menu(healthful).guardarCambios();

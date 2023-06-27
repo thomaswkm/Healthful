@@ -1,24 +1,17 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Cita {
-    private final LocalDateTime fechaHora;
-    private String rutPaciente;
-    private String rutMedico;
+    private final LocalDate fecha;
+    private final LocalTime hora;
+    private final String rutPaciente;
+    private final String rutMedico;
 
-    public Cita() {
-        fechaHora = LocalDateTime.now();
-    }
-
-    public Cita(String rutPaciente, String rutMedico, int dia, int mes, int year, int hora, int minuto) {
-        LocalDateTime fechaHoraActual = LocalDateTime.now();
-        LocalDateTime fechaHoraPropuesta = LocalDateTime.of(year, mes, dia, hora, minuto);
-
-        if (fechaHoraPropuesta.isBefore(fechaHoraActual)) {
-            throw new IllegalArgumentException("No puedes crear una cita en una fecha pasada.");
-        }
-        fechaHora = fechaHoraPropuesta;
+    public Cita(LocalDate fecha, LocalTime hora, String rutPaciente, String rutMedico) {
+        this.fecha = fecha;
+        this.hora = hora;
         this.rutPaciente = rutPaciente;
         this.rutMedico = rutMedico;
     }
@@ -29,5 +22,13 @@ public class Cita {
 
     public String getRutMedico() {
         return rutMedico;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public LocalTime getHora() {
+        return hora;
     }
 }

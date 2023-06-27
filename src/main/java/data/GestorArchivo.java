@@ -1,80 +1,20 @@
 package data;
 
-import model.Cita;
-import model.Healthful;
-import model.Medico;
-import model.Paciente;
-import model.Usuario;
+import com.opencsv.CSVReader;
+import model.*;
+import utils.Mapper;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.List;
 
 public class GestorArchivo {
-    public static String leerArchivo(String ruta) {
-        Path archivo = Path.of(ruta);
-        String contenido = "";
-        try {
-            contenido = Files.readString(archivo);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-        return contenido;
-    }
-
-    public static boolean comprobarUsuario(String rut) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("usuarios.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.split(",")[0].equals(rut)) {
-                    return false;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("No se pudo leer el archivo");
-        }
-        return true;
-    }
-
-    public static boolean registrarUsuario(Usuario u) {
-        if (!GestorArchivo.comprobarUsuario(u.toString().split(",")[0])) {
-            System.out.println("model.Usuario ya registrado");
-            return false;
-        }
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("usuarios.txt", true))) {
-            writer.write(u.toString());
-            writer.newLine();
-        } catch (IOException e) {
-            System.out.println("No se pudo escribir el archivo.");
-        }
-        return true;
-    }
-
-    public static boolean login(Usuario u) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("usuarios.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (u.verificacion(parts[0], parts[1])) {
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("No se pudo leer el archivo");
-        }
-        System.out.println("Contraseña incorrecta.");
-        return false;
-    }
-
-    public static void guardarUsuarios(String ruta, Healthful h) {
+    public static void guardarUsuarios(String ruta, Healthful healthful) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
-            for (Usuario u : h.getUsuarios()) {
-                writer.write(u.toString());
+            for (Usuario usuario : healthful.getUsuarios()) {
+                writer.write(usuario.toString());
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -82,12 +22,12 @@ public class GestorArchivo {
         }
     }
 
-    public static void guardarPacientes(String ruta, Healthful h) {
+    public static void guardarPacientes(String ruta, Healthful healthfulh) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
-            for (Paciente p : h.getPacientes()) {
-                writer.write(p.toString());
-                for (Cita c : p.getCitas()) {
-                    writer.write("," + c.toString());
+            for (Paciente paciente : healthfulh.getPacientes()) {
+                writer.write(paciente.toString());
+                for (Cita cita : paciente.getCitas()) {
+                    writer.write("," + cita.toString());
                 }
                 writer.newLine();
             }
@@ -96,12 +36,12 @@ public class GestorArchivo {
         }
     }
 
-    public static void guardarMedicos(String ruta, Healthful h) {
+    public static void guardarMedicos(String ruta, Healthful healthful) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
-            for (Medico m : h.getMedicos()) {
-                writer.write(m.toString());
-                for (Cita c : m.getCitas()) {
-                    writer.write("," + c.toString());
+            for (Medico medico : healthful.getMedicos()) {
+                writer.write(medico.toString());
+                for (Cita cita : medico.getCitas()) {
+                    writer.write("," + cita.toString());
                 }
                 writer.newLine();
             }
@@ -110,10 +50,10 @@ public class GestorArchivo {
         }
     }
 
-    public static void guardarCitas(String ruta, Healthful h) {
+    public static void guardarCitas(String ruta, Healthful healthful) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
-            for (Cita c : h.getCitas()) {
-                writer.write(c.toString());
+            for (Cita cita : healthful.getCitas()) {
+                writer.write(cita.toString());
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -121,103 +61,33 @@ public class GestorArchivo {
         }
     }
 
-    public static String devolverFicha(String ruta, String rut) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(ruta));
-            String line = reader.readLine();
-            while (line != null) {
-                line = reader.readLine();
-                if (line.split(",")[0].equals(rut)) {
-                    return line.split(",")[0] + line.split(",")[1];
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("No se pudo leer el archivo");
-        }
-        return "El paciente no está registrado";
+    public static List<Cita> leerCitas2(String ruta) {
+        List<String[]> registros = GestorArchivo.leerArchivo(ruta);
+        return Mapper.toCitas(registros);
     }
 
-    public static ArrayList<Paciente> leerPacientes(String ruta) {
-        ArrayList<Paciente> pacientes = new ArrayList<>();
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(ruta));
-            String line = reader.readLine();
-            while (line != null) {
-                String[] data = line.split(",");
-                ArrayList<Cita> citas = new ArrayList<>();
-
-                for (int i = 2; i < data.length; i += 7) {
-
-                    citas.add(new Cita(data[i], data[i + 1], Integer.parseInt(data[i + 2]), Integer.parseInt(data[i + 3]), Integer.parseInt(data[i + 4]), Integer.parseInt(data[i + 5]), Integer.parseInt(data[i + 6])));
-                }
-
-                Paciente paciente = new Paciente(data[0], data[1], citas);
-                pacientes.add(paciente);
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("No se pudo leer el archivo.");
-        }
-        return pacientes;
+    public static List<Medico> leerMedicos(String ruta) {
+        List<String[]> registros = GestorArchivo.leerArchivo(ruta);
+        return Mapper.toMedicos(registros);
     }
 
-    public static ArrayList<Medico> leerMedicos(String ruta) {
-        ArrayList<Medico> medicos = new ArrayList<>();
-
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(ruta));
-            String line = reader.readLine();
-            while (line != null) {
-                String[] data = line.split(",");
-                ArrayList<Cita> citas = new ArrayList<>();
-                for (int i = 3; i < data.length; i += 7) {
-
-                    citas.add(new Cita(data[i], data[i + 1], Integer.parseInt(data[i + 2]), Integer.parseInt(data[i + 3]), Integer.parseInt(data[i + 4]), Integer.parseInt(data[i + 5]), Integer.parseInt(data[i + 6])));
-                }
-                Medico medico = new Medico(data[0], data[1], data[2], citas);
-                medicos.add(medico);
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("No se pudo leer el archivo.");
-        }
-        return medicos;
+    public static List<Paciente> leerPacientes(String ruta) {
+        List<String[]> registros = GestorArchivo.leerArchivo(ruta);
+        return Mapper.toPacientes(registros);
     }
 
-    public static ArrayList<Cita> leerCitas(String ruta) {
-        ArrayList<Cita> citas = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(ruta));
-            String line = reader.readLine();
-            while (line != null) {
-                String[] data = line.split(",");
-                citas.add(new Cita(data[0], data[1], Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("No se pudo leer el archivo.");
-        }
-        return citas;
+    public static List<Usuario> leerUsuarios(String ruta) {
+        List<String[]> registros = leerArchivo(ruta);
+        return Mapper.toUsuarios(registros);
     }
 
-    public static ArrayList<Usuario> leerUsuarios(String ruta) {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(ruta));
-            String line = reader.readLine();
-            while (line != null) {
-                String[] data = line.split(",");
-                usuarios.add(new Usuario(data[0], data[1]));
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("No se pudo leer el archivo.");
+    private static List<String[]> leerArchivo(String ruta) {
+        try (CSVReader reader = new CSVReader(new FileReader(ruta))) {
+            return reader.readAll();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return usuarios;
     }
 }
+

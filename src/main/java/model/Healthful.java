@@ -1,52 +1,62 @@
 package model;
 
-import data.GestorArchivo;
-
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 public class Healthful {
-    private ArrayList<Usuario> usuarios;
-    private ArrayList<Paciente> pacientes;
-    private ArrayList<Medico> medicos;
-    private ArrayList<Cita> citas;
+    private final List<Usuario> usuarios;
+    private final List<Paciente> pacientes;
+    private final List<Medico> medicos;
+    private final List<Cita> citas;
 
-    public Healthful() {
-    }
-
-    public Healthful(ArrayList<Usuario> usuarios, ArrayList<Paciente> pacientes, ArrayList<Medico> medicos, ArrayList<Cita> citas) {
+    public Healthful(List<Usuario> usuarios, List<Paciente> pacientes, List<Medico> medicos, List<Cita> citas) {
         this.usuarios = usuarios;
         this.pacientes = pacientes;
         this.medicos = medicos;
         this.citas = citas;
     }
 
-    public ArrayList<Paciente> getPacientes() {
+    public Usuario login(String rut, String password) {
+        Usuario usuario = buscarUsuario(rut);
+        if (!usuario.verificacion(password)) throw new RuntimeException("Usuario y/o Contraseña incorrectos");
+
+        return usuario;
+    }
+
+    private Usuario buscarUsuario(String rut) {
+        return usuarios.stream()
+                .filter(usuario -> usuario.rut.equals(rut))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Usuario y/o Contraseña incorrectos"));
+    }
+
+    public List<Paciente> getPacientes() {
         return pacientes;
     }
 
-    public ArrayList<Medico> getMedicos() {
+    public List<Medico> getMedicos() {
         return medicos;
     }
 
-    public ArrayList<Cita> getCitas() {
+    public List<Cita> getCitas() {
         return citas;
     }
 
-    public ArrayList<Usuario> getUsuarios() {
+    public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void addPaciente(Paciente p) {
-        pacientes.add(p);
+    public void addPaciente(Paciente paciente) {
+        pacientes.add(paciente);
     }
 
-    public void addMedico(Medico m) {
-        medicos.add(m);
+    public void addMedico(Medico medico) {
+        medicos.add(medico);
     }
 
-    public void addCita(Cita c) {
-        citas.add(c);
+    public void addCita(Cita cita) {
+        citas.add(cita);
     }
 
     public void addUsuario(Usuario u) {
@@ -57,94 +67,56 @@ public class Healthful {
         System.out.println(medicos);
     }
 
-    public void solicitarCita(Paciente p) {
-        int dia = 0;
-        int mes = 0;
-        int year = 0;
-        int hora = 0;
-        int minuto = 0;
-        String rut = "";
-        Scanner sc = new Scanner(System.in);
-        try {
-            System.out.println("Ingrese el día: ");
-            dia = sc.nextInt();
-            System.out.println("Ingrese el número del mes: ");
-            mes = sc.nextInt();
-            System.out.println("Ingrese el año: ");
-            year = sc.nextInt();
-            System.out.println("Ingrese la hora del día: ");
-            hora = sc.nextInt();
-            System.out.println("Ingrese los minutos: ");
-            minuto = sc.nextInt();
-            System.out.println("Ingrese el rut del médico: ");
-            rut = sc.next();
-        } catch (Exception e) {
-            System.out.println("Error al ingresar los datos");
-        }
-        agregarCita(obtenerMedico(rut), p, dia, mes, year, hora, minuto);
-    }
-
-    public void agregarCita(Medico medico, Paciente p, int dia, int mes, int year, int hora, int minutos) {
-        if (medico != null) {
-            Cita c = new Cita(p.getRut(), medico.getRut(), dia, mes, year, hora, minutos);
-            if (!citas.contains(c)) {
-                citas.add(c);
-                p.addCita(c);
-                medico.addCita(c);
-            } else {
-                System.out.println("La cita ya fue registrada.");
-            }
-        } else {
+    public void agregarCita(Medico medico, Paciente paciente, int dia, int mes, int year, int hora, int minutos) {
+        if (medico == null) {
             System.out.println("No se encontró al médico con el rut ingresado.");
+            return;
         }
+
+        Cita cita = new Cita(LocalDate.now(), LocalTime.now(), paciente.getRut(), medico.getRut());
+
+        if (citas.contains(cita)) {
+            System.out.println("La cita ya fue registrada.");
+        }
+
+        citas.add(cita);
+        paciente.addCita(cita);
+        medico.addCita(cita);
     }
 
     public Medico obtenerMedico(String rut) {
-        for (Medico m : medicos) {
-            if (m.getRut().equals(rut)) {
-                return m;
-            }
-        }
-        return null;
+        return medicos.stream()
+                .filter(m -> m.getRut().equals(rut))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Usuario No Encontrado"));
     }
 
     public Paciente obtenerPaciente(String rut) {
-        for (Paciente p : pacientes) {
-            if (p.getRut().equals(rut)) {
-                return p;
-            }
-        }
-        return null;
+        return pacientes.stream()
+                .filter(p -> p.getRut().equals(rut))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Usuario No Encontrado"));
     }
 
-    public void mostrarCitasAgendadas(Paciente p) {
-        System.out.println(p.getCitas());
+    public void mostrarCitasAgendadas(Paciente paciente) {
+        System.out.println(paciente.getCitas());
     }
 
-    public void cancelarCita(Paciente p) {
-        System.out.println(p.getCitas());
-        System.out.println("Elige el numero de cita a borrar");
-        int ans = new Scanner(System.in).nextInt();
-        Cita c = p.getCitas().get(ans);
-        removeCita(p, obtenerMedico(p.getCitas().get(ans).getRutMedico()), c);
+    public void removeCita(Paciente paciente, Medico medico, Cita cita) {
+        citas.remove(cita);
+        paciente.removeCita(cita);
+        medico.removeCita(cita);
     }
 
-    public void removeCita(Paciente p, Medico m, Cita c) {
-        this.citas.remove(c);
-        p.removeCita(c);
-        m.removeCita(c);
-    }
-
-    public void removeCita(Medico m, Cita c) {
-        this.citas.remove(c);
-        Paciente p = obtenerPaciente(c.getRutPaciente());
-        p.removeCita(c);
-        m.removeCita(c);
+    public void removeCita(Medico medico, Cita cita) {
+        citas.remove(cita);
+        Paciente paciente = obtenerPaciente(cita.getRutPaciente());
+        paciente.removeCita(cita);
+        medico.removeCita(cita);
     }
 
     public void mostrarFichaPaciente() {
         System.out.println("Ingresa el rut del paciente");
-        System.out.println(GestorArchivo.devolverFicha("pacientes.txt", new Scanner(System.in).nextLine()));
     }
 
     public void mostrarHorasDisponibles() {
