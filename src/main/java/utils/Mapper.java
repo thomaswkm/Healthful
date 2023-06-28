@@ -1,6 +1,12 @@
 package utils;
 
-import model.*;
+import model.Cita;
+import model.EstadoCivil;
+import model.Medico;
+import model.Paciente;
+import model.Rol;
+import model.Sexo;
+import model.Usuario;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

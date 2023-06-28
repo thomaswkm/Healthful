@@ -1,6 +1,12 @@
 package data;
 
-import model.*;
+import model.Cita;
+import model.EstadoCivil;
+import model.Medico;
+import model.Paciente;
+import model.Rol;
+import model.Sexo;
+import model.Usuario;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -167,7 +173,7 @@ class GestorDeArchivosTest {
     void testAgregarCita() throws IOException {
         Path tempFile = Files.createTempFile("test", ".txt");
 
-        Cita cita = new Cita(LocalDate.of(2023,6,27),
+        Cita cita = new Cita(LocalDate.of(2023, 6, 27),
                 LocalTime.of(10, 0),
                 "123456789",
                 "987654321");
