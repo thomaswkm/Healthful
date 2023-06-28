@@ -83,4 +83,14 @@ public class Paciente extends Usuario {
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
+
+    @Override
+    public String[] toCSV() {
+        return new String[]{super.rut,
+                nombre,
+                apellido,
+                fechaNacimiento.toString(),
+                sexo.toString(),
+                estadoCivil.toString()};
+    }
 }

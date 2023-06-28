@@ -53,4 +53,17 @@ public class Medico extends Usuario {
     public String getEspecialidad() {
         return especialidad;
     }
+
+    @Override
+    public String[] toCSV() {
+        return new String[]{
+                rut,
+                nombre,
+                apellido,
+                fechaNacimiento.toString(),
+                sexo.toString(),
+                estadoCivil.toString(),
+                especialidad
+        };
+    }
 }

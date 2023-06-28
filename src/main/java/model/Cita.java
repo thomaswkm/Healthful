@@ -31,4 +31,8 @@ public class Cita {
     public LocalTime getHora() {
         return hora;
     }
+
+    public String[] toCSV() {
+        return new String[]{fecha.toString(), hora.toString(), rutPaciente, rutMedico};
+    }
 }

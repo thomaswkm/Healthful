@@ -2,7 +2,6 @@ package model;
 
 public class Usuario {
     protected String rut;
-
     private String password;
     private Rol rol;
 
@@ -31,5 +30,9 @@ public class Usuario {
 
     public Rol getRol() {
         return rol;
+    }
+
+    public String[] toCSV() {
+        return new String[]{rut, password, rol.toString()};
     }
 }

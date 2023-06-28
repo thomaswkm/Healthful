@@ -1,7 +1,5 @@
 package model;
 
-import data.GestorArchivo;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -105,10 +103,7 @@ public class Menu {
     }
 
     public void guardarCambios() {
-        GestorArchivo.guardarUsuarios("usuarios.txt", healthful);
-        GestorArchivo.guardarPacientes("pacientes.txt", healthful);
-        GestorArchivo.guardarMedicos("medicos.txt", healthful);
-        GestorArchivo.guardarCitas("citas.txt", healthful);
+        //TODO
     }
 
     public void menuRegistro() {
