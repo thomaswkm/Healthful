@@ -19,16 +19,17 @@ public class Healthful {
 
     public Usuario login(String rut, String password) {
         Usuario usuario = buscarUsuario(rut);
-        if (!usuario.verificacion(password)) throw new RuntimeException("Usuario y/o Contraseña incorrectos");
+
+        if (!usuario.verificacion(password)) throw new RuntimeException("Rut y/o Contraseña incorrectos");
 
         return usuario;
     }
 
     private Usuario buscarUsuario(String rut) {
         return usuarios.stream()
-                .filter(usuario -> usuario.rut.equals(rut))
+                .filter(usuario -> usuario.getRut().equals(rut))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Usuario y/o Contraseña incorrectos"));
+                .orElseThrow(() -> new RuntimeException("Rut y/o Contraseña incorrectos"));
     }
 
     public List<Paciente> getPacientes() {
@@ -113,12 +114,5 @@ public class Healthful {
         Paciente paciente = obtenerPaciente(cita.getRutPaciente());
         paciente.removeCita(cita);
         medico.removeCita(cita);
-    }
-
-    public void mostrarFichaPaciente() {
-        System.out.println("Ingresa el rut del paciente");
-    }
-
-    public void mostrarHorasDisponibles() {
     }
 }

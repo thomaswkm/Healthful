@@ -108,13 +108,13 @@ class HealthfulTest {
         RuntimeException exception = assertThrows(RuntimeException.class,
                 () -> healthful.login("111111111", "passw1"));
 
-        assertEquals("Usuario y/o Contraseña incorrectos", exception.getMessage());
+        assertEquals("Rut y/o Contraseña incorrectos", exception.getMessage());
     }
     @Test
     void login_debeArrojarUnaExcepcion_cuandoElPasswordEsIncorrecto() {
         RuntimeException exception = assertThrows(RuntimeException.class,
                 () -> healthful.login("204036712", "1234"));
 
-        assertEquals("Usuario y/o Contraseña incorrectos", exception.getMessage());
+        assertEquals("Rut y/o Contraseña incorrectos", exception.getMessage());
     }
 }

@@ -1,9 +1,11 @@
 package model;
 
+import java.util.Objects;
+
 public class Usuario {
     protected String rut;
     private String password;
-    private Rol rol;
+    private final Rol rol;
 
     public Usuario(String rut, String password, Rol rol) {
         this.rut = rut;
@@ -34,5 +36,17 @@ public class Usuario {
 
     public String[] toCSV() {
         return new String[]{rut, password, rol.toString()};
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Usuario usuario = (Usuario) o;
+
+        if (!Objects.equals(rut, usuario.rut)) return false;
+        if (!Objects.equals(password, usuario.password)) return false;
+        return rol == usuario.rol;
     }
 }
