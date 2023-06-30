@@ -87,7 +87,8 @@ public class VentanaMenuBienvenida extends Ventana {
 
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == botonIniciarSesion) {
-            // Acciones al hacer clic en el botón "Iniciar Sesión"
+            new VentanaInicioSesion(healthful);
+            this.dispose();
         }
     }
 }
