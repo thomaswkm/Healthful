@@ -64,13 +64,13 @@ public class GestorArchivo {
     }
 
     public void guardarPacientes(String ruta, Healthful h) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, true) )) {
             for (Paciente p : h.getPacientes()) {
                 writer.write(p.toString());
                 for (Cita c : p.getCitas()) {
                     writer.write("," + c.toString());
                 }
-                writer.newLine();
+                writer.close();
             }
         } catch (IOException e) {
             System.out.println("No se pudo escribir en el archivo de pacientes.");
