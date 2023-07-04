@@ -17,6 +17,7 @@ public class Menu {
         procesarOpcionIngresada(ingresarOpcion(3));
     }
 
+
     public void login(){
         if (ga.login(ingresarDatos())) {
             verificarRol(rut);

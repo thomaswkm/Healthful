@@ -14,6 +14,7 @@ public class MenuMedico {
         this.h = h;
     }
 
+
     public void menu() {
         System.out.println(textoMenu());
         procesarOpcionIngresada(ingresarOpcion(3));

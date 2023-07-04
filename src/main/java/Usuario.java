@@ -13,6 +13,7 @@ public class Usuario {
 
     }
 
+
     public boolean verificacion(String rut, String password){
         if(this.rut.equals(rut)&&this.password.equals(password)){
             return true;

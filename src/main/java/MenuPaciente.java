@@ -13,6 +13,7 @@ public class MenuPaciente {
         this.h = h;
     }
 
+
     public void menu() {
         System.out.println(textoMenu());
         procesarOpcionIngresada(ingresarOpcion(6));

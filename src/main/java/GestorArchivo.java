@@ -201,5 +201,6 @@ public class GestorArchivo {
             System.out.println("No se pudo leer el archivo.");
         }
         return usuarios;
+
     }
 }

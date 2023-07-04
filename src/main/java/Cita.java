@@ -48,6 +48,7 @@ public class Cita {
     }
 
 
+
     @Override
     public String toString() {
         return rutPaciente+","+rutMedico+","+fechaHora.getDayOfMonth()+","+fechaHora.getMonthValue()+","+fechaHora.getYear()+","+fechaHora.getHour()+","+fechaHora.getMinute();

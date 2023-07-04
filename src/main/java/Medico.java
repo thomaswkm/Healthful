@@ -15,6 +15,7 @@ public class Medico {
         this.citas = citas;
     }
 
+
     public Medico() {
     }
 
