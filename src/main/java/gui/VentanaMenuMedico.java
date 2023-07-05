@@ -1,6 +1,7 @@
 package gui;
 
 import model.Healthful;
+import model.Usuario;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -8,14 +9,16 @@ import java.awt.event.ActionEvent;
 
 public class VentanaMenuMedico extends Ventana {
     private final Healthful healthful;
+    private final Usuario usuario;
     private JButton botonVerPacientes;
     private JButton botonVerAgenda;
     private JButton botonVerCitas;
     private JButton botonCerrarSesion;
 
-    public VentanaMenuMedico(Healthful healthful) {
+    public VentanaMenuMedico(Healthful healthful, Usuario usuario) {
         super("Menú Medico", 500, 520);
         this.healthful = healthful;
+        this.usuario = usuario;
         generarElementosVentana();
     }
 

@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Healthful {
@@ -135,13 +136,27 @@ public class Healthful {
         System.out.println(paciente.getCitas());
     }
 
-    public void removeCita(Paciente paciente, Medico medico, Cita cita) {
+    public boolean removeCita(String rutPaciente, String rutMedico, Cita cita) {
         if(citas.contains(cita)) {
             citas.remove(cita);
-            paciente.getCitas().remove(cita);
-            medico.getCitas().remove(cita);
+            obtenerPaciente(rutPaciente).getCitas().remove(cita);
+            obtenerMedico(rutMedico).getCitas().remove(cita);
+            return true;
         }else{
             System.out.println("La cita no está registrada");
+            return false;
         }
+    }
+
+
+    public ArrayList<Cita> devolverCitasPaciente(String rut) throws Exception {
+        ArrayList<Cita> citas = new ArrayList<>();
+
+        for (Cita cita : this.citas) {
+            if (cita.getRutPaciente().equals(rut)) {
+                citas.add(cita);
+            }
+        }
+        return citas;
     }
 }
