@@ -76,7 +76,7 @@ public class VentanaMenuPaciente extends Ventana {
             VentanaCancelarCita ventanaCancelarCita = new VentanaCancelarCita(healthful,usuario);
         }
         if (event.getSource() == botonVerCitas) {
-            //TODO
+            VentanaVerCitas ventanaVerCitas = new VentanaVerCitas(healthful,usuario);
         }
         if (event.getSource() == botonCerrarSesion) {
             new VentanaMenuBienvenida(healthful);

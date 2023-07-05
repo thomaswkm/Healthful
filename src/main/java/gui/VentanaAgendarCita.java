@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 
 public class VentanaAgendarCita extends Ventana {
@@ -120,11 +119,15 @@ public class VentanaAgendarCita extends Ventana {
     }
 
     private boolean agregarCita() {
+        if (campoRutMedico.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el Rut del Médico.");
+            return false;
+        }
         LocalDate fecha = LocalDate.parse(campoFecha.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        LocalTime hora = LocalTime.of(campoHora.getValue(),campoMinutos.getValue());
-
-        return healthful.addCita(new Cita(fecha,hora, usuario.getRut(),campoRutMedico.getText()));
+        LocalTime hora = LocalTime.of(campoHora.getValue(), campoMinutos.getValue());
+        return healthful.addCita(new Cita(fecha, hora, usuario.getRut(), campoRutMedico.getText()));
     }
+
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonGuardar) {

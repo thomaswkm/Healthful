@@ -43,6 +43,12 @@ public class Paciente extends Usuario {
     }
 
     @Override
+    public String toString() {
+        return rut + "," + nombre + "," + apellido + "," + fechaNacimiento + "," + sexo + "," + estadoCivil;
+
+    }
+
+    @Override
     public String[] toCSV() {
         return new String[]{super.rut,
                 nombre,

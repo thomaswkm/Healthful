@@ -70,13 +70,13 @@ public class VentanaMenuMedico extends Ventana {
 
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == botonVerPacientes) {
-            //TODO
+            VentanaVerPacientes ventanaVerPacientes = new VentanaVerPacientes(healthful,usuario);
         }
         if (event.getSource() == botonVerAgenda) {
             //TODO
         }
         if (event.getSource() == botonVerCitas) {
-            //TODO
+            VentanaVerCitas ventanaVerCitas = new VentanaVerCitas(healthful,usuario);
         }
         if (event.getSource() == botonCerrarSesion) {
             new VentanaMenuBienvenida(healthful);

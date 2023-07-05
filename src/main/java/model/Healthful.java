@@ -159,4 +159,26 @@ public class Healthful {
         }
         return citas;
     }
+
+    public ArrayList<Cita> devolverCitasMedico(String rut) throws Exception {
+        ArrayList<Cita> citas = new ArrayList<>();
+
+        for (Cita cita : this.citas) {
+            if (cita.getRutMedico().equals(rut)) {
+                citas.add(cita);
+            }
+        }
+        return citas;
+    }
+
+    public ArrayList<Paciente> devolverPacientesAsociadosAMedico(String rut) {
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+
+        for (Cita cita : this.citas){
+            if(cita.getRutMedico().equals(rut)){
+                pacientes.add(obtenerPaciente(cita.getRutPaciente()));
+            }
+        }
+        return pacientes;
+    }
 }
