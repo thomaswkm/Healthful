@@ -88,6 +88,17 @@ public class Healthful {
         }
     }
 
+    public boolean removeUsuario(String rut){
+        Usuario usuario = buscarUsuario(rut);
+        if(this.usuarios.contains(usuario)){
+            usuarios.remove(usuario);
+            return true;
+        }else{
+            System.out.println("El usuario no está registrado");
+            return false;
+        }
+    }
+
     public void mostrarMedicos() {
         System.out.println(medicos);
     }

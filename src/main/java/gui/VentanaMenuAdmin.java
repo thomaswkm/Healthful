@@ -60,11 +60,11 @@ public class VentanaMenuAdmin extends Ventana {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonAgregarUsuario) {
-            //TODO
+            VentanaAgregarUsuario ventanaAgregarUsuario = new VentanaAgregarUsuario(healthful);
         }
 
         if (e.getSource() == botonEliminarUsuario) {
-            //TODO
+            VentanaEliminarUsuario ventanaEliminarUsuario = new VentanaEliminarUsuario(healthful);
         }
 
         if (e.getSource() == botonCerrarSesion) {
