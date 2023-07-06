@@ -57,4 +57,5 @@ public class MenuMedico {
                 3. Salir
                 -> Ingrese una opcion:""";
     }
+
 }

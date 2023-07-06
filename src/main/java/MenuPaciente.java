@@ -62,5 +62,6 @@ public class MenuPaciente {
                 6. Salir
                 -> Ingrese una opcion:""";
     }
+
 }
 

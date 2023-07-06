@@ -52,4 +52,5 @@ public class Paciente {
         return rut + "," + nombre;
     }
 
+
 }
