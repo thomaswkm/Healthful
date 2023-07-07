@@ -44,7 +44,7 @@
   
 7. MenuMedico:
 
-8. GestorDeArchivos
+8. data.GestorArchivo
 - Atributos:
     - Rutas
 

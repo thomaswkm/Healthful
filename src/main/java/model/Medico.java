@@ -34,14 +34,6 @@ public class Medico extends Usuario {
         return citas;
     }
 
-    public void addCita(Cita cita) {
-        citas.add(cita);
-    }
-
-    public void removeCita(Cita cita) {
-        citas.remove(cita);
-    }
-
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }

@@ -32,9 +32,6 @@ public class Paciente extends Usuario {
         return citas;
     }
 
-    public void addCita(Cita cita) {
-        citas.add(cita);
-    }
 
     public Sexo getSexo() {
         return sexo;
@@ -42,6 +39,12 @@ public class Paciente extends Usuario {
 
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
+    }
+
+    @Override
+    public String toString() {
+        return rut + "," + nombre + "," + apellido + "," + fechaNacimiento + "," + sexo + "," + estadoCivil;
+
     }
 
     @Override

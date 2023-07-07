@@ -1,7 +1,7 @@
 package gui;
 
 import model.Healthful;
-import model.Paciente;
+import model.Usuario;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -9,17 +9,16 @@ import java.awt.event.ActionEvent;
 
 public class VentanaMenuPaciente extends Ventana {
     private final Healthful healthful;
-
-    private final Paciente paciente;
+    private final Usuario usuario;
     private JButton botonAgendar;
     private JButton botonCancelar;
     private JButton botonVerCitas;
     private JButton botonCerrarSesion;
 
-    public VentanaMenuPaciente(Healthful healthful, Paciente paciente) {
+    public VentanaMenuPaciente(Healthful healthful, Usuario usuario) {
         super("Menú Paciente", 500, 520);
         this.healthful = healthful;
-        this.paciente = paciente;
+        this.usuario = usuario;
         generarElementosVentana();
     }
 
@@ -71,13 +70,13 @@ public class VentanaMenuPaciente extends Ventana {
 
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == botonAgendar) {
-            new VentanaAgendar(paciente, healthful);
+            VentanaAgendarCita ventanaAgendarCita = new VentanaAgendarCita(healthful,usuario);
         }
         if (event.getSource() == botonCancelar) {
-            //TODO
+            VentanaCancelarCita ventanaCancelarCita = new VentanaCancelarCita(healthful,usuario);
         }
         if (event.getSource() == botonVerCitas) {
-            //TODO
+            VentanaVerCitas ventanaVerCitas = new VentanaVerCitas(healthful,usuario);
         }
         if (event.getSource() == botonCerrarSesion) {
             new VentanaMenuBienvenida(healthful);

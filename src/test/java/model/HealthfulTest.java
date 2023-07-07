@@ -75,7 +75,7 @@ class HealthfulTest {
         PrintStream printStream = new PrintStream(output);
         System.setOut(printStream);
 
-        paciente.addCita(cita);
+        healthful.getPacientes().get(0).getCitas().add(cita);
         healthful.mostrarCitasAgendadas(paciente);
 
         String consoleOutput = output.toString().trim();

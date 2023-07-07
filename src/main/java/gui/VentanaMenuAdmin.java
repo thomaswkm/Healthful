@@ -1,6 +1,7 @@
 package gui;
 
 import model.Healthful;
+import model.Usuario;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -8,13 +9,15 @@ import java.awt.event.ActionEvent;
 
 public class VentanaMenuAdmin extends Ventana {
     private final Healthful healthful;
+    private final Usuario usuario;
     private JButton botonCerrarSesion;
     private JButton botonAgregarUsuario;
     private JButton botonEliminarUsuario;
 
-    public VentanaMenuAdmin(Healthful healthful) {
+    public VentanaMenuAdmin(Healthful healthful, Usuario usuario) {
         super("Menú Admin", 500, 520);
         this.healthful = healthful;
+        this.usuario = usuario;
         generarElementosVentana();
     }
 
@@ -60,11 +63,11 @@ public class VentanaMenuAdmin extends Ventana {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonAgregarUsuario) {
-            //TODO
+            VentanaAgregarUsuario ventanaAgregarUsuario = new VentanaAgregarUsuario(healthful);
         }
 
         if (e.getSource() == botonEliminarUsuario) {
-            //TODO
+            VentanaEliminarUsuario ventanaEliminarUsuario = new VentanaEliminarUsuario(healthful);
         }
 
         if (e.getSource() == botonCerrarSesion) {

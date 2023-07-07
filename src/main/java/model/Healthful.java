@@ -1,5 +1,8 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Healthful {
@@ -30,24 +33,85 @@ public class Healthful {
                 .orElseThrow(() -> new RuntimeException("Rut y/o Contraseña incorrectos"));
     }
 
+    public List<Paciente> getPacientes() {
+        return pacientes;
+    }
+
     public List<Medico> getMedicos() {
         return medicos;
     }
 
-    public void addPaciente(Paciente paciente) {
-        pacientes.add(paciente);
+    public List<Cita> getCitas() {
+        return citas;
     }
 
-    public void addMedico(Medico medico) {
-        medicos.add(medico);
+    public List<Usuario> getUsuarios() {
+        return usuarios;
     }
 
-    public void addCita(Cita cita) {
-        citas.add(cita);
+    public boolean addPaciente(Paciente paciente) {
+        if (!this.pacientes.contains(paciente)) {
+            pacientes.add(paciente);
+            return true;
+        } else {
+            System.out.println("El paciente ya está registrado");
+            return false;
+        }
     }
 
-    public void addUsuario(Usuario u) {
-        usuarios.add(u);
+    public boolean addMedico(Medico medico) {
+        if (!this.medicos.contains(medico)) {
+            medicos.add(medico);
+            return true;
+        } else {
+            System.out.println("El medico ya está registrado");
+            return false;
+        }
+    }
+
+    public boolean addCita(Cita cita) {
+        if (!this.citas.contains(cita)) {
+            citas.add(cita);
+            return true;
+        } else {
+            System.out.println("La cita ya está registrada");
+            return false;
+        }
+    }
+
+    public boolean addUsuario(Usuario usuario) {
+        if (!this.usuarios.contains(usuario)) {
+            usuarios.add(usuario);
+            return true;
+        } else {
+            System.out.println("El usuario ya está registrado");
+            return false;
+        }
+    }
+
+    public boolean removeUsuario(String rut) {
+        Usuario usuario = buscarUsuario(rut);
+        if (this.usuarios.contains(usuario)) {
+            usuarios.remove(usuario);
+            return true;
+        } else {
+            System.out.println("El usuario no está registrado");
+            return false;
+        }
+    }
+
+    public void mostrarMedicos() {
+        System.out.println(medicos);
+    }
+
+    public boolean agregarCita(Cita cita) {
+        if (addCita(cita)) {
+            obtenerPaciente(cita.getRutPaciente()).getCitas().add(cita);
+            obtenerMedico(cita.getRutMedico()).getCitas().add(cita);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Medico obtenerMedico(String rut) {
@@ -68,4 +132,49 @@ public class Healthful {
         System.out.println(paciente.getCitas());
     }
 
+    public boolean removeCita(String rutPaciente, String rutMedico, Cita cita) {
+        if (citas.contains(cita)) {
+            citas.remove(cita);
+            obtenerPaciente(rutPaciente).getCitas().remove(cita);
+            obtenerMedico(rutMedico).getCitas().remove(cita);
+            return true;
+        } else {
+            System.out.println("La cita no está registrada");
+            return false;
+        }
+    }
+
+
+    public ArrayList<Cita> devolverCitasPaciente(String rut) throws Exception {
+        ArrayList<Cita> citas = new ArrayList<>();
+
+        for (Cita cita : this.citas) {
+            if (cita.getRutPaciente().equals(rut)) {
+                citas.add(cita);
+            }
+        }
+        return citas;
+    }
+
+    public ArrayList<Cita> devolverCitasMedico(String rut) throws Exception {
+        ArrayList<Cita> citas = new ArrayList<>();
+
+        for (Cita cita : this.citas) {
+            if (cita.getRutMedico().equals(rut)) {
+                citas.add(cita);
+            }
+        }
+        return citas;
+    }
+
+    public ArrayList<Paciente> devolverPacientesAsociadosAMedico(String rut) {
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+
+        for (Cita cita : this.citas) {
+            if (cita.getRutMedico().equals(rut)) {
+                pacientes.add(obtenerPaciente(cita.getRutPaciente()));
+            }
+        }
+        return pacientes;
+    }
 }
