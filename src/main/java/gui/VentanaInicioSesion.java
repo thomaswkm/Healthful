@@ -85,14 +85,14 @@ public class VentanaInicioSesion extends Ventana {
             return;
         }
 
-        nuevaVentana(usuario.getRol(), healthful);
+        nuevaVentana(usuario.getRol(), usuario.getRut(), healthful);
         this.dispose();
     }
 
-    private void nuevaVentana(Rol rol, Healthful healthful) {
+    private void nuevaVentana(Rol rol, String rut, Healthful healthful) {
         switch (rol) {
-            case PACIENTE -> new VentanaMenuPaciente(healthful);
-            case MEDICO -> new VentanaMenuMedico(healthful);
+            case PACIENTE -> new VentanaMenuPaciente(healthful, healthful.obtenerPaciente(rut));
+            case MEDICO -> new VentanaMenuMedico(healthful, healthful.obtenerMedico(rut));
             case ADMIN -> new VentanaMenuAdmin(healthful);
         }
     }

@@ -1,7 +1,5 @@
 package model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public class Healthful {
@@ -32,20 +30,8 @@ public class Healthful {
                 .orElseThrow(() -> new RuntimeException("Rut y/o Contraseña incorrectos"));
     }
 
-    public List<Paciente> getPacientes() {
-        return pacientes;
-    }
-
     public List<Medico> getMedicos() {
         return medicos;
-    }
-
-    public List<Cita> getCitas() {
-        return citas;
-    }
-
-    public List<Usuario> getUsuarios() {
-        return usuarios;
     }
 
     public void addPaciente(Paciente paciente) {
@@ -62,27 +48,6 @@ public class Healthful {
 
     public void addUsuario(Usuario u) {
         usuarios.add(u);
-    }
-
-    public void mostrarMedicos() {
-        System.out.println(medicos);
-    }
-
-    public void agregarCita(Medico medico, Paciente paciente, int dia, int mes, int year, int hora, int minutos) {
-        if (medico == null) {
-            System.out.println("No se encontró al médico con el rut ingresado.");
-            return;
-        }
-
-        Cita cita = new Cita(LocalDate.now(), LocalTime.now(), paciente.getRut(), medico.getRut());
-
-        if (citas.contains(cita)) {
-            System.out.println("La cita ya fue registrada.");
-        }
-
-        citas.add(cita);
-        paciente.addCita(cita);
-        medico.addCita(cita);
     }
 
     public Medico obtenerMedico(String rut) {
@@ -103,16 +68,4 @@ public class Healthful {
         System.out.println(paciente.getCitas());
     }
 
-    public void removeCita(Paciente paciente, Medico medico, Cita cita) {
-        citas.remove(cita);
-        paciente.removeCita(cita);
-        medico.removeCita(cita);
-    }
-
-    public void removeCita(Medico medico, Cita cita) {
-        citas.remove(cita);
-        Paciente paciente = obtenerPaciente(cita.getRutPaciente());
-        paciente.removeCita(cita);
-        medico.removeCita(cita);
-    }
 }
