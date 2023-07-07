@@ -125,7 +125,7 @@ public class VentanaAgendarCita extends Ventana {
         }
         LocalDate fecha = LocalDate.parse(campoFecha.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         LocalTime hora = LocalTime.of(campoHora.getValue(), campoMinutos.getValue());
-        return healthful.addCita(new Cita(fecha, hora, usuario.getRut(), campoRutMedico.getText()));
+        return healthful.agregarCita(new Cita(fecha, hora, usuario.getRut(), campoRutMedico.getText()));
     }
 
 

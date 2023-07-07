@@ -50,51 +50,51 @@ public class Healthful {
     }
 
     public boolean addPaciente(Paciente paciente) {
-        if(!this.pacientes.contains(paciente)) {
+        if (!this.pacientes.contains(paciente)) {
             pacientes.add(paciente);
             return true;
-        }else{
+        } else {
             System.out.println("El paciente ya está registrado");
             return false;
         }
     }
 
     public boolean addMedico(Medico medico) {
-        if(!this.medicos.contains(medico)) {
+        if (!this.medicos.contains(medico)) {
             medicos.add(medico);
             return true;
-        }else{
+        } else {
             System.out.println("El medico ya está registrado");
             return false;
         }
     }
 
     public boolean addCita(Cita cita) {
-        if(!this.citas.contains(cita)) {
+        if (!this.citas.contains(cita)) {
             citas.add(cita);
             return true;
-        }else{
+        } else {
             System.out.println("La cita ya está registrada");
             return false;
         }
     }
 
     public boolean addUsuario(Usuario usuario) {
-        if(!this.usuarios.contains(usuario)) {
+        if (!this.usuarios.contains(usuario)) {
             usuarios.add(usuario);
             return true;
-        }else{
+        } else {
             System.out.println("El usuario ya está registrado");
             return false;
         }
     }
 
-    public boolean removeUsuario(String rut){
+    public boolean removeUsuario(String rut) {
         Usuario usuario = buscarUsuario(rut);
-        if(this.usuarios.contains(usuario)){
+        if (this.usuarios.contains(usuario)) {
             usuarios.remove(usuario);
             return true;
-        }else{
+        } else {
             System.out.println("El usuario no está registrado");
             return false;
         }
@@ -104,17 +104,13 @@ public class Healthful {
         System.out.println(medicos);
     }
 
-    public void agregarCita(Medico medico, Paciente paciente, int dia, int mes, int year, int hora, int minutos) {
-        if (medico == null) {
-            System.out.println("No se encontró al médico con el rut ingresado.");
-            return;
-        }
-
-        Cita cita = new Cita(LocalDate.now(), LocalTime.now(), paciente.getRut(), medico.getRut());
-
-        if(addCita(cita)) {
-            paciente.getCitas().add(cita);
-            medico.getCitas().add(cita);
+    public boolean agregarCita(Cita cita) {
+        if (addCita(cita)) {
+            obtenerPaciente(cita.getRutPaciente()).getCitas().add(cita);
+            obtenerMedico(cita.getRutMedico()).getCitas().add(cita);
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -137,12 +133,12 @@ public class Healthful {
     }
 
     public boolean removeCita(String rutPaciente, String rutMedico, Cita cita) {
-        if(citas.contains(cita)) {
+        if (citas.contains(cita)) {
             citas.remove(cita);
             obtenerPaciente(rutPaciente).getCitas().remove(cita);
             obtenerMedico(rutMedico).getCitas().remove(cita);
             return true;
-        }else{
+        } else {
             System.out.println("La cita no está registrada");
             return false;
         }
@@ -174,8 +170,8 @@ public class Healthful {
     public ArrayList<Paciente> devolverPacientesAsociadosAMedico(String rut) {
         ArrayList<Paciente> pacientes = new ArrayList<>();
 
-        for (Cita cita : this.citas){
-            if(cita.getRutMedico().equals(rut)){
+        for (Cita cita : this.citas) {
+            if (cita.getRutMedico().equals(rut)) {
                 pacientes.add(obtenerPaciente(cita.getRutPaciente()));
             }
         }
