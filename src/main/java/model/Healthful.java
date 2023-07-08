@@ -1,7 +1,6 @@
 package model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,9 +127,6 @@ public class Healthful {
                 .orElseThrow(() -> new RuntimeException("Usuario No Encontrado"));
     }
 
-    public void mostrarCitasAgendadas(Paciente paciente) {
-        System.out.println(paciente.getCitas());
-    }
 
     public boolean removeCita(String rutPaciente, String rutMedico, Cita cita) {
         if (citas.contains(cita)) {
@@ -145,18 +141,16 @@ public class Healthful {
     }
 
 
-    public ArrayList<Cita> devolverCitasPaciente(String rut) throws Exception {
-        ArrayList<Cita> citas = new ArrayList<>();
-
-        for (Cita cita : this.citas) {
-            if (cita.getRutPaciente().equals(rut)) {
-                citas.add(cita);
+    public ArrayList<Cita> devolverCitasPaciente(String rut) {
+        for (Paciente paciente: pacientes) {
+            if(paciente.getRut().equals(rut)){
+                return (ArrayList<Cita>) paciente.getCitas();
             }
         }
-        return citas;
+        return new ArrayList<>();
     }
 
-    public ArrayList<Cita> devolverCitasMedico(String rut) throws Exception {
+    public ArrayList<Cita> devolverCitasMedico(String rut) {
         ArrayList<Cita> citas = new ArrayList<>();
 
         for (Cita cita : this.citas) {

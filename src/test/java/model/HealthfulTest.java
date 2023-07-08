@@ -81,19 +81,6 @@ class HealthfulTest {
         assertEquals(healthful.obtenerPaciente(paciente.getRut()), paciente);
     }
 
-    @Test
-    void mostrarCitasAgendadas() {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(output);
-        System.setOut(printStream);
-
-        healthful.getPacientes().get(0).getCitas().add(cita);
-        healthful.mostrarCitasAgendadas(paciente);
-
-        String consoleOutput = output.toString().trim();
-        
-        assertEquals(paciente.getCitas().toString(),consoleOutput);
-    }
 
     @Test
     void login_debeRetornarElUsuario_cuandoExiste() {
