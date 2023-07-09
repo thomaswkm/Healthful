@@ -4,11 +4,14 @@ import model.Healthful;
 import model.Rol;
 import model.Usuario;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 
 public class VentanaAgregarUsuario extends Ventana {
-    private Healthful healthful;
+    private final Healthful healthful;
     private JTextField campoRut, campoPassword, campoRol;
     private JButton botonGuardar;
     private JButton botonCancelar;
@@ -49,7 +52,6 @@ public class VentanaAgregarUsuario extends Ventana {
         this.add(campoRol);
     }
 
-
     private void generarBotonGuardar() {
         botonGuardar = generarBoton("Guardar", 50, 200, 100, 30);
         this.add(botonGuardar);
@@ -62,18 +64,17 @@ public class VentanaAgregarUsuario extends Ventana {
         botonCancelar.addActionListener(this);
     }
 
-    private boolean agregarUsuario(){
-        return healthful.addUsuario(new Usuario(campoRut.getText(),campoPassword.getText(), Rol.valueOf(campoRol.getText())));
+    private boolean agregarUsuario() {
+        return healthful.addUsuario(new Usuario(campoRut.getText(), campoPassword.getText(), Rol.valueOf(campoRol.getText())));
     }
-
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonGuardar) {
-            if(agregarUsuario()){
-                JOptionPane.showMessageDialog(this,"Usuario registrado correctamente");
+            if (agregarUsuario()) {
+                JOptionPane.showMessageDialog(this, "Usuario registrado correctamente");
                 this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(this,"No se pudo registrar al usuario");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo registrar al usuario");
                 this.dispose();
             }
         }

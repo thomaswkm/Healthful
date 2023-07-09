@@ -3,30 +3,29 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HealthfulTest {
-
     Healthful healthful;
     Usuario usuario1;
     Usuario usuario2;
     Paciente paciente;
     Medico medico;
     Cita cita;
+
     @BeforeEach
-    void setUp(){
-        healthful = new Healthful(new ArrayList<>(),new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
-        usuario1 = new Usuario("204036712","passw1", Rol.PACIENTE);
-        usuario2 = new Usuario("203721803","123", Rol.PACIENTE);
-        paciente = new Paciente("204036712","nombrePaciente", "apellido", LocalDate.now(), Sexo.HOMBRE, EstadoCivil.CASADO_A, new ArrayList<>());
-        medico = new Medico("203721803","nombreMedico", "apellido", LocalDate.now(), Sexo.HOMBRE, EstadoCivil.CASADO_A, "n/a",new ArrayList<>());
-        cita = new Cita(LocalDate.now(), LocalTime.now(), paciente.getRut(),medico.getRut());
+    void setUp() {
+        healthful = new Healthful(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        usuario1 = new Usuario("204036712", "passw1", Rol.PACIENTE);
+        usuario2 = new Usuario("203721803", "123", Rol.PACIENTE);
+        paciente = new Paciente("204036712", "nombrePaciente", "apellido", LocalDate.now(), Sexo.HOMBRE, EstadoCivil.CASADO_A, new ArrayList<>());
+        medico = new Medico("203721803", "nombreMedico", "apellido", LocalDate.now(), Sexo.HOMBRE, EstadoCivil.CASADO_A, "n/a", new ArrayList<>());
+        cita = new Cita(LocalDate.now(), LocalTime.now(), paciente.getRut(), medico.getRut());
 
         healthful.addUsuario(usuario1);
         healthful.addUsuario(usuario2);
@@ -70,20 +69,6 @@ class HealthfulTest {
     }
 
     @Test
-    void mostrarCitasAgendadas() {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(output);
-        System.setOut(printStream);
-
-        healthful.getPacientes().get(0).getCitas().add(cita);
-        healthful.mostrarCitasAgendadas(paciente);
-
-        String consoleOutput = output.toString().trim();
-
-        assertEquals(paciente.getCitas().toString(),consoleOutput);
-    }
-
-    @Test
     void login_debeRetornarElUsuario_cuandoExiste() {
         Usuario usuario = healthful.login("204036712", "passw1");
 
@@ -98,6 +83,7 @@ class HealthfulTest {
 
         assertEquals("Rut y/o Contraseña incorrectos", exception.getMessage());
     }
+
     @Test
     void login_debeArrojarUnaExcepcion_cuandoElPasswordEsIncorrecto() {
         RuntimeException exception = assertThrows(RuntimeException.class,

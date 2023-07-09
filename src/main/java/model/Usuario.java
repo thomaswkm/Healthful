@@ -3,9 +3,9 @@ package model;
 import java.util.Objects;
 
 public class Usuario {
+    private final Rol rol;
     protected String rut;
     private String password;
-    private final Rol rol;
 
     public Usuario(String rut, String password, Rol rol) {
         this.rut = rut;

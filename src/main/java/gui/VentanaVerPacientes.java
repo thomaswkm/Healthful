@@ -1,16 +1,18 @@
 package gui;
 
-import model.*;
 import model.Healthful;
+import model.Paciente;
 import model.Usuario;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.util.List;
 
 public class VentanaVerPacientes extends Ventana {
-    private Healthful healthful;
-    private Usuario usuario;
+    private final Healthful healthful;
+    private final Usuario usuario;
     private JButton botonVolver;
     private JComboBox<String> comboBoxCitas;
 
@@ -27,26 +29,18 @@ public class VentanaVerPacientes extends Ventana {
     }
 
     private void generarComboBoxPacientes() {
-        ArrayList<Paciente> pacientes = new ArrayList<>();
-
-            try {
-                pacientes = healthful.devolverPacientesAsociadosAMedico(usuario.getRut());
-            } catch (Exception e) {
-            }
+        List<Paciente> pacientes = healthful.devolverPacientesAsociadosAMedico(usuario.getRut());
 
         if (pacientes.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No tienes pacientes con citas agendadas.");
+            new VentanaMenuMedico(healthful, healthful.obtenerMedico(usuario.getRut()));
             this.dispose();
-        } else {
-            String[] citasArray = new String[pacientes.size()];
-            for (int i = 0; i < pacientes.size(); i++) {
-                citasArray[i] = pacientes.get(i).toString();
-            }
-
-            comboBoxCitas = new JComboBox<>(citasArray);
-            comboBoxCitas.setBounds(20, 20, 400, 30);
-            this.add(comboBoxCitas);
         }
+        String[] citasArray = pacientes.stream().map(Paciente::toString).toArray(String[]::new);
+
+        comboBoxCitas = new JComboBox<>(citasArray);
+        comboBoxCitas.setBounds(20, 20, 400, 30);
+        this.add(comboBoxCitas);
     }
 
     private void generarBotonVolver() {
@@ -57,6 +51,7 @@ public class VentanaVerPacientes extends Ventana {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonVolver) {
+            new VentanaMenuMedico(healthful, healthful.obtenerMedico(usuario.getRut()));
             this.dispose();
         }
     }

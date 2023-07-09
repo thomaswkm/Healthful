@@ -34,6 +34,10 @@ public class Medico extends Usuario {
         return citas;
     }
 
+    public String getNombreCompleto() {
+        return nombre + " " + apellido;
+    }
+
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -57,5 +61,10 @@ public class Medico extends Usuario {
                 estadoCivil.toString(),
                 especialidad
         };
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellido;
     }
 }

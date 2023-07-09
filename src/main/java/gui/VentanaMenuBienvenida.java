@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ import java.io.IOException;
 public class VentanaMenuBienvenida extends Ventana {
     private final Healthful healthful;
     private JButton botonIniciarSesion;
+    private JButton botonSalir;
 
     public VentanaMenuBienvenida(Healthful healthful) {
         super("Healthful", 800, 520);
@@ -24,6 +26,7 @@ public class VentanaMenuBienvenida extends Ventana {
 
     private void generarElementos() {
         generarBotonIniciarSesion();
+        generarBotonSalir();
         generarImagen();
         generarIconos();
         generarLogo();
@@ -31,11 +34,20 @@ public class VentanaMenuBienvenida extends Ventana {
         this.repaint();
     }
 
+    private void generarBotonSalir() {
+        String textoBoton = "Salir";
+        botonSalir = super.generarBoton(textoBoton, 100, 350, 200, 40);
+        botonSalir.setForeground(Color.WHITE);
+        botonSalir.setBackground(Color.RED);
+        this.add(botonSalir);
+        botonSalir.addActionListener(this);
+    }
+
     private void generarBotonIniciarSesion() {
         String textoBoton = "Iniciar Sesión";
-        botonIniciarSesion = super.generarBoton(textoBoton, 550, 100, 200, 40);
+        botonIniciarSesion = super.generarBoton(textoBoton, 100, 300, 200, 40);
         botonIniciarSesion.setForeground(Color.WHITE);
-        botonIniciarSesion.setBackground(Color.RED);
+        botonIniciarSesion.setBackground(Color.GREEN);
         this.add(botonIniciarSesion);
         botonIniciarSesion.addActionListener(this);
     }
@@ -88,6 +100,11 @@ public class VentanaMenuBienvenida extends Ventana {
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == botonIniciarSesion) {
             new VentanaInicioSesion(healthful);
+            this.dispose();
+        }
+
+        if (event.getSource() == botonSalir) {
+            JOptionPane.showMessageDialog(this, "Hasta Luego! 😉");
             this.dispose();
         }
     }

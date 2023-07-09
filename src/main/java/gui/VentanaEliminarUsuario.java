@@ -2,11 +2,13 @@ package gui;
 
 import model.Healthful;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 
 public class VentanaEliminarUsuario extends Ventana {
-    private Healthful healthful;
+    private final Healthful healthful;
     private JTextField campoRut;
     private JButton botonEliminar;
     private JButton botonCancelar;
@@ -42,17 +44,17 @@ public class VentanaEliminarUsuario extends Ventana {
         botonCancelar.addActionListener(this);
     }
 
-    private boolean eliminarUsuario(){
+    private boolean eliminarUsuario() {
         return healthful.removeUsuario(campoRut.getText());
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonEliminar) {
-            if(eliminarUsuario()){
-                JOptionPane.showMessageDialog(this,"Usuario eliminado correctamente");
+            if (eliminarUsuario()) {
+                JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente");
                 this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(this,"No se pudo eliminar al usuario");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo eliminar al usuario");
                 this.dispose();
             }
         }

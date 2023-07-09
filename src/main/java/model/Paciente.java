@@ -32,7 +32,6 @@ public class Paciente extends Usuario {
         return citas;
     }
 
-
     public Sexo getSexo() {
         return sexo;
     }
@@ -41,10 +40,13 @@ public class Paciente extends Usuario {
         return fechaNacimiento;
     }
 
+    public String getNombreCompleto() {
+        return nombre + " " + apellido;
+    }
+
     @Override
     public String toString() {
         return rut + "," + nombre + "," + apellido + "," + fechaNacimiento + "," + sexo + "," + estadoCivil;
-
     }
 
     @Override

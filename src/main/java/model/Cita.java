@@ -35,7 +35,7 @@ public class Cita {
 
     @Override
     public String toString() {
-        return fecha+","+hora+","+rutPaciente+","+rutMedico;
+        return fecha + "," + hora + "," + rutPaciente + "," + rutMedico;
     }
 
     public String[] toCSV() {
@@ -52,10 +52,4 @@ public class Cita {
                 Objects.equals(rutPaciente, cita.rutPaciente) &&
                 Objects.equals(rutMedico, cita.rutMedico);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(fecha, hora, rutPaciente, rutMedico);
-    }
-
 }

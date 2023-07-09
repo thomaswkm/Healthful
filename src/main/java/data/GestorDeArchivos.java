@@ -2,6 +2,7 @@ package data;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import model.Cita;
 import model.Medico;
 import model.Paciente;
@@ -38,15 +39,15 @@ public class GestorDeArchivos {
         try (CSVWriter writer = new CSVWriter(new FileWriter(ruta, true))) {
             writer.writeNext(registro, false);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     private static List<String[]> leerArchivo(String ruta) {
         try (CSVReader reader = new CSVReader(new FileReader(ruta))) {
             return reader.readAll();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

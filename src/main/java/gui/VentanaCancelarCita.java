@@ -2,51 +2,56 @@ package gui;
 
 import model.Cita;
 import model.Healthful;
-import model.Usuario;
+import model.Paciente;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public class VentanaCancelarCita extends Ventana {
-    private Healthful healthful;
-    private Usuario usuario;
+    private final Healthful healthful;
+    private final Paciente paciente;
     private JButton botonCancelar;
+    private JButton botonVolver;
     private JComboBox<String> comboBoxCitas;
 
-    protected VentanaCancelarCita(Healthful healthful, Usuario usuario) {
+    protected VentanaCancelarCita(Healthful healthful, Paciente paciente) {
         super("Cancelar Cita", 450, 550);
         this.healthful = healthful;
-        this.usuario = usuario;
+        this.paciente = paciente;
         generarElementosVentana();
     }
 
     private void generarElementosVentana() {
         generarComboBoxCitas();
         generarBotonCancelar();
+        generarBotonVolver();
+    }
+
+    private void generarBotonVolver() {
+        botonVolver = generarBoton("Volver al Menú", 20, 200, 150, 30);
+        this.add(botonVolver);
+        botonVolver.addActionListener(this);
     }
 
     private void generarComboBoxCitas() {
-        ArrayList<Cita> citas = new ArrayList<>();
-        try {
-            citas = healthful.devolverCitasPaciente(usuario.getRut());
-        }catch (Exception e){}
+        List<Cita> citas = healthful.devolverCitasPaciente(paciente.getRut());
 
         if (citas.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay citas agendadas.");
+            new VentanaMenuPaciente(healthful, paciente);
             this.dispose();
-        } else {
-            String[] citasArray = new String[citas.size()];
-            for (int i = 0; i < citas.size(); i++) {
-                citasArray[i] = citas.get(i).toString();
-            }
-
-            comboBoxCitas = new JComboBox<>(citasArray);
-            comboBoxCitas.setBounds(20, 20, 400, 30);
-            this.add(comboBoxCitas);
         }
+
+        String[] citasArray = citas.stream().map(Cita::toString).toArray(String[]::new);
+
+        comboBoxCitas = new JComboBox<>(citasArray);
+        comboBoxCitas.setBounds(20, 20, 400, 30);
+        this.add(comboBoxCitas);
     }
 
     private void generarBotonCancelar() {
@@ -60,20 +65,24 @@ public class VentanaCancelarCita extends Ventana {
         String[] descomposicionCita = citaSeleccionada.split(",");
         String rutPaciente = descomposicionCita[2];
         String rutMedico = descomposicionCita[3];
-        Cita c = new Cita(LocalDate.parse(descomposicionCita[0]), LocalTime.parse(descomposicionCita[1]),rutPaciente,rutMedico);
-        return healthful.removeCita(rutPaciente,rutMedico,c);
-
+        Cita c = new Cita(LocalDate.parse(descomposicionCita[0]), LocalTime.parse(descomposicionCita[1]), rutPaciente, rutMedico);
+        return healthful.removeCita(rutPaciente, rutMedico, c);
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonCancelar) {
-            if(cancelarCita()){
-                JOptionPane.showMessageDialog(this,"Cita cancelada correctamente.");
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(this,"No se pudo agendar la cita");
-                this.dispose();
+            if (cancelarCita()) {
+                JOptionPane.showMessageDialog(this, "Cita cancelada correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo agendar la cita");
             }
+            new VentanaMenuPaciente(healthful, paciente);
+            this.dispose();
+        }
+
+        if (e.getSource() == botonVolver) {
+            new VentanaMenuPaciente(healthful, paciente);
+            this.dispose();
         }
     }
 }

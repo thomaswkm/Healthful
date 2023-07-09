@@ -2,15 +2,19 @@ package gui;
 
 import model.Cita;
 import model.Healthful;
+import model.Rol;
 import model.Usuario;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VentanaVerCitas extends Ventana {
-    private Healthful healthful;
-    private Usuario usuario;
+    private final Healthful healthful;
+    private final Usuario usuario;
     private JButton botonVolver;
     private JComboBox<String> comboBoxCitas;
 
@@ -27,34 +31,31 @@ public class VentanaVerCitas extends Ventana {
     }
 
     private void generarComboBoxCitas() {
-        ArrayList<Cita> citas = new ArrayList<>();
-
-        if(usuario.getRol().name().equals("PACIENTE")) {
-            try {
-                citas = healthful.devolverCitasPaciente(usuario.getRut());
-            } catch (Exception e) {
-            }
-        }if(usuario.getRol().name().equals("MEDICO")){
-            try {
-                citas = healthful.devolverCitasMedico(usuario.getRut());
-            } catch (Exception e) {
-            }
-        }
-
+        List<Cita> citas = getCitas();
 
         if (citas.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay citas agendadas.");
+            new VentanaMenuPaciente(healthful, healthful.obtenerPaciente(usuario.getRut()));
             this.dispose();
-        } else {
-            String[] citasArray = new String[citas.size()];
-            for (int i = 0; i < citas.size(); i++) {
-                citasArray[i] = citas.get(i).toString();
-            }
-
-            comboBoxCitas = new JComboBox<>(citasArray);
-            comboBoxCitas.setBounds(20, 20, 400, 30);
-            this.add(comboBoxCitas);
         }
+
+        String[] citasArray = citas.stream().map(Cita::toString).toArray(String[]::new);
+
+        comboBoxCitas = new JComboBox<>(citasArray);
+        comboBoxCitas.setBounds(20, 20, 400, 30);
+        this.add(comboBoxCitas);
+    }
+
+    private List<Cita> getCitas() {
+        Rol rol = usuario.getRol();
+
+        if (rol == Rol.PACIENTE) {
+            return healthful.devolverCitasPaciente(usuario.getRut());
+        }
+        if (rol == Rol.MEDICO) {
+            return healthful.devolverCitasMedico(usuario.getRut());
+        }
+        return new ArrayList<>();
     }
 
     private void generarBotonVolver() {
@@ -65,6 +66,7 @@ public class VentanaVerCitas extends Ventana {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonVolver) {
+            new VentanaMenuPaciente(healthful, healthful.obtenerPaciente(usuario.getRut()));
             this.dispose();
         }
     }

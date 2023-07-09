@@ -1,7 +1,6 @@
 package gui;
 
 import model.Healthful;
-import model.Rol;
 import model.Usuario;
 
 import javax.swing.JButton;
@@ -67,7 +66,7 @@ public class VentanaInicioSesion extends Ventana {
 
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == botonIngresar) {
-            ingresarUsuario(healthful);
+            ingresarUsuario();
         }
         if (event.getSource() == botonCancelar) {
             new VentanaMenuBienvenida(healthful);
@@ -75,24 +74,21 @@ public class VentanaInicioSesion extends Ventana {
         }
     }
 
-    private void ingresarUsuario(Healthful healthful) {
-        Usuario usuario;
-
+    private void ingresarUsuario() {
         try {
-            usuario = this.healthful.login(campoRut.getText(), String.valueOf(campoPassword.getPassword()));
+            Usuario usuario = healthful.login(campoRut.getText(), String.valueOf(campoPassword.getPassword()));
+            nuevaVentana(usuario, healthful);
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             return;
         }
-
-        nuevaVentana(usuario, healthful);
         this.dispose();
     }
 
     private void nuevaVentana(Usuario usuario, Healthful healthful) {
         switch (usuario.getRol()) {
-            case PACIENTE -> new VentanaMenuPaciente(healthful, usuario);
-            case MEDICO -> new VentanaMenuMedico(healthful, usuario);
+            case PACIENTE -> new VentanaMenuPaciente(healthful, healthful.obtenerPaciente(usuario.getRut()));
+            case MEDICO -> new VentanaMenuMedico(healthful, healthful.obtenerMedico(usuario.getRut()));
             case ADMIN -> new VentanaMenuAdmin(healthful, usuario);
         }
     }
