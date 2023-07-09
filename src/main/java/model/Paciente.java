@@ -1,8 +1,8 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
-import java.util.Scanner;
 
 public class Paciente extends Usuario {
     private final String nombre;
@@ -40,8 +40,16 @@ public class Paciente extends Usuario {
         return fechaNacimiento;
     }
 
+    public EstadoCivil getEstadoCivil() {
+        return estadoCivil;
+    }
+
     public String getNombreCompleto() {
         return nombre + " " + apellido;
+    }
+
+    public int getEdad() {
+        return Period.between(fechaNacimiento, LocalDate.now()).getYears();
     }
 
     @Override
