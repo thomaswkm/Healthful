@@ -1,11 +1,15 @@
 package gui;
 
+import model.Cita;
 import model.Healthful;
+import model.Medico;
 import model.Paciente;
 
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class VentanaMenuPaciente extends Ventana {
     private final Healthful healthful;
@@ -78,12 +82,29 @@ public class VentanaMenuPaciente extends Ventana {
             this.dispose();
         }
         if (event.getSource() == botonVerCitas) {
-            new VentanaVerCitas(healthful, paciente);
-            this.dispose();
+            String[][] datos = mapCitas();
+            String[] columnas = new String[]{"Fecha", "Hora", "Médico"};
+            new VentanaTabla(datos, columnas, "Citas");
         }
         if (event.getSource() == botonCerrarSesion) {
             new VentanaMenuBienvenida(healthful);
             this.dispose();
         }
+    }
+
+    private String[][] mapCitas() {
+        List<Cita> citas = healthful.devolverCitasPaciente(paciente.getRut());
+        return citas.stream().map(this::mapCita).toArray(String[][]::new);
+    }
+
+    private String[] mapCita(Cita cita) {
+        String rutMedico = cita.getRutMedico();
+        Medico medico = healthful.obtenerMedico(rutMedico);
+
+        return new String[]{
+                cita.getFecha().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+                cita.getHora().toString(),
+                medico.getNombreCompleto()
+        };
     }
 }

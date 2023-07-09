@@ -1,11 +1,19 @@
 package gui;
 
+import model.Cita;
 import model.Healthful;
 import model.Medico;
+import model.Paciente;
 
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 
 public class VentanaMenuMedico extends Ventana {
     private final Healthful healthful;
@@ -70,19 +78,59 @@ public class VentanaMenuMedico extends Ventana {
 
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == botonVerPacientes) {
-            new VentanaVerPacientes(healthful, medico);
-            this.dispose();
+            String[][] datos = mapPacientes();
+            String[] columnas = new String[]{"Nombre", "Sexo", "Edad", "Estado Civil", "Visitas"};
+            new VentanaTabla(datos, columnas, "Pacientes");
         }
         if (event.getSource() == botonVerAgenda) {
             //TODO
         }
         if (event.getSource() == botonVerCitas) {
-            new VentanaVerCitas(healthful, medico);
-            this.dispose();
+            String[][] datos = mapCitas();
+            String[] columnas = new String[]{"Fecha", "Hora", "Paciente"};
+            new VentanaTabla(datos, columnas, "Citas");
         }
         if (event.getSource() == botonCerrarSesion) {
             new VentanaMenuBienvenida(healthful);
             this.dispose();
         }
     }
+
+    private String[][] mapCitas() {
+        List<Cita> citas = healthful.devolverCitasMedico(medico.getRut());
+        return citas.stream().map(this::mapCita).toArray(String[][]::new);
+    }
+
+    private String[] mapCita(Cita cita) {
+        String rutPaciente = cita.getRutPaciente();
+        Paciente paciente = healthful.obtenerPaciente(rutPaciente);
+
+        return new String[]{
+                cita.getFecha().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+                cita.getHora().toString(),
+                paciente.getNombreCompleto()
+        };
+    }
+
+    private String[][] mapPacientes() {
+        List<Cita> citas = healthful.devolverCitasMedico(medico.getRut());
+
+        Map<String, Long> conteoRutPaciente = citas.stream()
+                .collect(groupingBy(Cita::getRutPaciente, counting()));
+
+        return conteoRutPaciente.entrySet().stream()
+                .map(entry -> mapPaciente(entry.getKey(), entry.getValue()))
+                .toArray(String[][]::new);
+    }
+
+    private String[] mapPaciente(String rutPaciente, Long visitas) {
+        Paciente paciente = healthful.obtenerPaciente(rutPaciente);
+        return new String[]{paciente.getNombreCompleto(),
+                paciente.getSexo().toString(),
+                String.valueOf(paciente.getEdad()),
+                paciente.getEstadoCivil().toString(),
+                visitas.toString()
+        };
+    }
+
 }
