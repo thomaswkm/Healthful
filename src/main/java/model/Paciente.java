@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Scanner;
 
 public class Paciente extends Usuario {
     private final String nombre;
@@ -9,7 +10,6 @@ public class Paciente extends Usuario {
     private final LocalDate fechaNacimiento;
     private final Sexo sexo;
     private final EstadoCivil estadoCivil;
-
     private final List<Cita> citas;
 
     public Paciente(String rut,
