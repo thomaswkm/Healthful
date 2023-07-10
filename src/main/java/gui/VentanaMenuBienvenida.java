@@ -19,7 +19,7 @@ public class VentanaMenuBienvenida extends Ventana {
     private JButton botonSalir;
 
     public VentanaMenuBienvenida(Healthful healthful) {
-        super("Healthful", 1040, 702);
+        super("Healthful", 800, 500);
         this.healthful = healthful;
         generarElementos();
     }
@@ -37,7 +37,7 @@ public class VentanaMenuBienvenida extends Ventana {
 
     private void generarBotonSalir() {
         String textoBoton = "Salir";
-        botonSalir = super.generarBoton(textoBoton, 200, 413, 200, 40);
+        botonSalir = super.generarBoton(textoBoton, 25, 350, 200, 40);
         botonSalir.setForeground(Color.WHITE);
         botonSalir.setBackground(Color.RED);
         this.add(botonSalir);
@@ -46,7 +46,7 @@ public class VentanaMenuBienvenida extends Ventana {
 
     private void generarBotonIniciarSesion() {
         String textoBoton = "Iniciar Sesión";
-        botonIniciarSesion = super.generarBoton(textoBoton, 200, 330, 200, 40);
+        botonIniciarSesion = super.generarBoton(textoBoton, 25, 300, 200, 40);
         botonIniciarSesion.setForeground(Color.WHITE);
         botonIniciarSesion.setBackground(Color.GREEN);
         this.add(botonIniciarSesion);
@@ -57,7 +57,7 @@ public class VentanaMenuBienvenida extends Ventana {
         try {
             BufferedImage imagen = ImageIO.read(new File("src/main/resources/images/fondo1.png"));
             JLabel labelImagen = new JLabel(new ImageIcon(imagen));
-            labelImagen.setBounds(550, 0, imagen.getWidth(), imagen.getHeight());
+            labelImagen.setBounds(310, 0, imagen.getWidth(), imagen.getHeight());
             this.add(labelImagen);
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +96,7 @@ public class VentanaMenuBienvenida extends Ventana {
         try {
             BufferedImage logo = ImageIO.read(new File("src/main/resources/images/logo.png"));
             JLabel labelLogo = new JLabel(new ImageIcon(logo));
-            labelLogo.setBounds(170, 162, 259, 94);
+            labelLogo.setBounds(0, 150, 280, 100);
             this.add(labelLogo);
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class VentanaMenuBienvenida extends Ventana {
 
     private void generarLabelFrase() {
         String frase = "Tu bienestar en tus manos";
-        super.generarJLabel(frase, 220, 270, 300, 30);
+        super.generarJLabel(frase, 35, 260, 300, 30);
     }
 
     public void actionPerformed(ActionEvent event) {
