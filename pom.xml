@@ -20,6 +20,16 @@
         <version>5.9.2</version>
         <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>com.opencsv</groupId>
+        <artifactId>opencsv</artifactId>
+        <version>5.7.1</version>
+    </dependency>
+    <dependency>
+        <groupId>org.swinglabs</groupId>
+        <artifactId>swingx</artifactId>
+        <version>1.6.1</version>
+    </dependency>
 </dependencies>
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
