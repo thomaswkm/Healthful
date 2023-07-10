@@ -8,11 +8,18 @@ public class ValidadorRut {
         return digitoVerificadorIngresado.equalsIgnoreCase(digitoVerificadorCalculado);
     }
 
-    static String extraerDigitoVerificador(String rut) {
+    public static boolean validar(String rut) {
+        String digitoVerificadorCalculado = ValidadorRut.calcularDigitoVerificador(rut);
+        String digitoVerificadorIngresado = extraerDigitoVerificador(rut);
+
+        return esRutValido(digitoVerificadorCalculado, digitoVerificadorIngresado);
+    }
+
+    public static String extraerDigitoVerificador(String rut) {
         return rut.substring(rut.length() - 1);
     }
 
-    static String calcularDigitoVerificador(String rut) {
+    public static String calcularDigitoVerificador(String rut) {
         rut = quitarPuntosYGuion(rut);
         rut = quitarDigitoVerificador(rut);
         rut = invertirCadena(rut);
@@ -60,22 +67,12 @@ public class ValidadorRut {
         int factorMultiplicacion = 2;
 
         for (int i = 0; i < rut.length(); i++) {
-            int digito = convertirCharAInt(rut.charAt(i));
+            int digito = Integer.parseInt(String.valueOf(rut.charAt(i)));
             multiplicaciones[i] = digito * factorMultiplicacion;
             factorMultiplicacion++;
             if (factorMultiplicacion == 8) factorMultiplicacion = 2;
         }
         return multiplicaciones;
-    }
-
-    private static int convertirCharAInt(char digito) {
-        try {
-            return Integer.parseInt(String.valueOf(digito));
-        } catch (NumberFormatException e) {
-            System.err.println("El rut contiene caracteres no validos");
-            System.exit(0);
-        }
-        return 0;
     }
 
     public static String invertirCadena(String rut) {

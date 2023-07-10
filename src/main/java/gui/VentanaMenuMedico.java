@@ -19,7 +19,6 @@ public class VentanaMenuMedico extends Ventana {
     private final Healthful healthful;
     private final Medico medico;
     private JButton botonVerPacientes;
-    private JButton botonVerAgenda;
     private JButton botonVerCitas;
     private JButton botonCerrarSesion;
 
@@ -33,7 +32,6 @@ public class VentanaMenuMedico extends Ventana {
     private void generarElementosVentana() {
         generarMensajeMenu();
         generarBotonVerPacientes();
-        generarBotonVerAgenda();
         generarBotonVerCitas();
         generarBotonCerrarSesion();
     }
@@ -53,16 +51,9 @@ public class VentanaMenuMedico extends Ventana {
 
     private void generarBotonVerCitas() {
         String textoBoton = "Ver Citas";
-        botonVerCitas = super.generarBoton(textoBoton, getCentro(200), 150, 200, 40);
+        botonVerCitas = super.generarBoton(textoBoton, getCentro(200), 100, 200, 40);
         this.add(botonVerCitas);
         botonVerCitas.addActionListener(this);
-    }
-
-    private void generarBotonVerAgenda() {
-        String textoBoton = "Ver Agenda";
-        botonVerAgenda = super.generarBoton(textoBoton, getCentro(200), 100, 200, 40);
-        this.add(botonVerAgenda);
-        botonVerAgenda.addActionListener(this);
     }
 
     private void generarBotonVerPacientes() {
@@ -81,9 +72,6 @@ public class VentanaMenuMedico extends Ventana {
             String[][] datos = mapPacientes();
             String[] columnas = new String[]{"Nombre", "Sexo", "Edad", "Estado Civil", "Visitas"};
             new VentanaTabla(datos, columnas, "Pacientes");
-        }
-        if (event.getSource() == botonVerAgenda) {
-            //TODO
         }
         if (event.getSource() == botonVerCitas) {
             String[][] datos = mapCitas();
@@ -132,5 +120,4 @@ public class VentanaMenuMedico extends Ventana {
                 visitas.toString()
         };
     }
-
 }

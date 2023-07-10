@@ -89,7 +89,7 @@ public class VentanaInicioSesion extends Ventana {
         switch (usuario.getRol()) {
             case PACIENTE -> new VentanaMenuPaciente(healthful, healthful.obtenerPaciente(usuario.getRut()));
             case MEDICO -> new VentanaMenuMedico(healthful, healthful.obtenerMedico(usuario.getRut()));
-            case ADMIN -> new VentanaMenuAdmin(healthful, usuario);
+            case ADMIN -> new VentanaMenuAdmin(healthful);
         }
     }
 }

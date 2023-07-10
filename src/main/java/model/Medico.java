@@ -50,6 +50,10 @@ public class Medico extends Usuario {
         return especialidad;
     }
 
+    public EstadoCivil getEstadoCivil() {
+        return estadoCivil;
+    }
+
     @Override
     public String[] toCSV() {
         return new String[]{

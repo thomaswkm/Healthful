@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Cita {
@@ -39,7 +40,7 @@ public class Cita {
     }
 
     public String[] toCSV() {
-        return new String[]{fecha.toString(), hora.toString(), rutPaciente, rutMedico};
+        return new String[]{fecha.toString(), hora.format(DateTimeFormatter.ofPattern("hh:mm")), rutPaciente, rutMedico};
     }
 
     @Override

@@ -35,10 +35,10 @@ public class VentanaConfirmacionCita extends Ventana {
         generarEncabezado();
         generarBotonAgendar();
         generarBotonCancelar();
-        generarLabelInfo();
+        generarLabelsInfo();
     }
 
-    private void generarLabelInfo() {
+    private void generarLabelsInfo() {
         String fechaFormateada = fecha.format(DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM 'de' yyyy"));
         super.generarJLabel("Fecha:", 20, 50, 200, 20);
         super.generarJLabel(fechaFormateada, 230, 50, 200, 20);

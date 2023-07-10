@@ -1,6 +1,8 @@
 package gui;
 
 import model.Healthful;
+import model.Rol;
+import model.Usuario;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -44,22 +46,49 @@ public class VentanaEliminarUsuario extends Ventana {
         botonCancelar.addActionListener(this);
     }
 
-    private boolean eliminarUsuario() {
-        return healthful.removeUsuario(campoRut.getText());
-    }
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonEliminar) {
-            if (eliminarUsuario()) {
-                JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente");
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar al usuario");
-                this.dispose();
-            }
+            if (usuarioNoRegistrado()) return;
+
+            Usuario usuario = healthful.buscarUsuario(campoRut.getText());
+            if (esAdmin(usuario)) return;
+
+
+            borrarSegunRol(usuario);
+            healthful.removeUsuario(campoRut.getText());
+            JOptionPane.showMessageDialog(this, "Usuario: " + usuario.getRut() + ". Eliminado");
+            new VentanaMenuAdmin(healthful);
+            this.dispose();
         }
         if (e.getSource() == botonCancelar) {
+            new VentanaMenuAdmin(healthful);
             this.dispose();
+        }
+    }
+
+    private boolean esAdmin(Usuario usuario) {
+        if (usuario.getRol() == Rol.ADMIN) {
+            JOptionPane.showMessageDialog(this, "No se puede eliminar el ADMIN");
+            return true;
+        }
+        return false;
+    }
+
+    private void borrarSegunRol(Usuario usuario) {
+        switch (usuario.getRol()) {
+            case PACIENTE -> healthful.removePaciente(usuario.getRut());
+            case MEDICO -> healthful.removeMedico(usuario.getRut());
+        }
+    }
+
+    private boolean usuarioNoRegistrado() {
+        String rut = campoRut.getText();
+        try {
+            healthful.buscarUsuario(rut);
+            return false;
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, "El rut: " + rut + ". No está registrado");
+            return true;
         }
     }
 }

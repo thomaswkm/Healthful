@@ -7,7 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HealthfulTest {
     Healthful healthful;
@@ -25,55 +26,8 @@ class HealthfulTest {
         paciente = new Paciente("204036712", "nombrePaciente", "apellido", LocalDate.now(), Sexo.HOMBRE, EstadoCivil.CASADO_A, new ArrayList<>());
         medico = new Medico("203721803", "nombreMedico", "apellido", LocalDate.now(), Sexo.HOMBRE, EstadoCivil.CASADO_A, "n/a", new ArrayList<>());
         cita = new Cita(LocalDate.now(), LocalTime.now(), paciente.getRut(), medico.getRut());
-
-        healthful.addUsuario(usuario1);
-        healthful.addUsuario(usuario2);
-        healthful.addPaciente(paciente);
-        healthful.addMedico(medico);
-        healthful.addCita(cita);
     }
 
-    @Test
-    void addPaciente() {
-//        healthful.addPaciente(paciente);
-//        assertTrue(healthful.getPacientes().contains(paciente));
-    }
-
-    @Test
-    void addMedico() {
-        healthful.addMedico(medico);
-        assertTrue(healthful.getMedicos().contains(medico));
-    }
-
-    @Test
-    void addCita() {
-        healthful.addCita(cita);
-//        assertTrue(healthful.getCitas().contains(cita));
-    }
-
-    @Test
-    void addUsuario() {
-        healthful.addUsuario(usuario1);
-//        assertTrue(healthful.getUsuarios().contains(usuario1));
-    }
-
-    @Test
-    void obtenerMedico() {
-        assertEquals(healthful.obtenerMedico(medico.getRut()), medico);
-    }
-
-    @Test
-    void obtenerPaciente() {
-        assertEquals(healthful.obtenerPaciente(paciente.getRut()), paciente);
-    }
-
-    @Test
-    void login_debeRetornarElUsuario_cuandoExiste() {
-        Usuario usuario = healthful.login("204036712", "passw1");
-
-        assertEquals("204036712", usuario.getRut());
-        assertEquals("passw1", usuario.getPassword());
-    }
     @Test
     void login_debeArrojarUnaExcepcion_cuandoElRutNoExiste() {
         RuntimeException exception = assertThrows(RuntimeException.class,

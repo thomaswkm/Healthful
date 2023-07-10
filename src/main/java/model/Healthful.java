@@ -34,11 +34,15 @@ public class Healthful {
         return usuario;
     }
 
-    private Usuario buscarUsuario(String rut) {
+    public Usuario buscarUsuario(String rut) {
         return usuarios.stream()
                 .filter(usuario -> usuario.getRut().equals(rut))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Rut y/o Contraseña incorrectos"));
+    }
+
+    public List<String> getEspecialidades() {
+        return medicos.stream().map(Medico::getEspecialidad).distinct().collect(toList());
     }
 
     public List<Medico> getMedicos() {
@@ -46,19 +50,13 @@ public class Healthful {
     }
 
     public void addPaciente(Paciente paciente) {
-        if (!pacientes.contains(paciente)) {
-            pacientes.add(paciente);
-        } else {
-            System.out.println("El paciente ya está registrado");
-        }
+        pacientes.add(paciente);
+        GestorDeArchivos.guardarRegistro(paciente.toCSV(), "src/main/resources/data/pacientes.txt");
     }
 
     public void addMedico(Medico medico) {
-        if (!medicos.contains(medico)) {
-            medicos.add(medico);
-        } else {
-            System.out.println("El medico ya está registrado");
-        }
+        medicos.add(medico);
+        GestorDeArchivos.guardarRegistro(medico.toCSV(), "src/main/resources/data/medicos.txt");
     }
 
     public void addCita(Cita cita) {
@@ -66,25 +64,14 @@ public class Healthful {
         GestorDeArchivos.guardarRegistro(cita.toCSV(), "src/main/resources/data/citas.txt");
     }
 
-    public boolean addUsuario(Usuario usuario) {
-        if (!usuarios.contains(usuario)) {
-            usuarios.add(usuario);
-            return true;
-        } else {
-            System.out.println("El usuario ya está registrado");
-            return false;
-        }
+    public void addUsuario(Usuario usuario) {
+        usuarios.add(usuario);
+        GestorDeArchivos.guardarRegistro(usuario.toCSV(), "src/main/resources/data/usuarios.txt");
     }
 
-    public boolean removeUsuario(String rut) {
-        Usuario usuario = buscarUsuario(rut);
-        if (usuarios.contains(usuario)) {
-            usuarios.remove(usuario);
-            return true;
-        } else {
-            System.out.println("El usuario no está registrado");
-            return false;
-        }
+    public void removeUsuario(String rut) {
+        usuarios.removeIf(usuario -> usuario.getRut().equals(rut));
+        GestorDeArchivos.borrarRegistro("src/main/resources/data/usuarios.txt", rut, 0);
     }
 
     public Medico obtenerMedico(String rut) {
@@ -125,10 +112,13 @@ public class Healthful {
                 .collect(toList());
     }
 
-    public List<Paciente> devolverPacientesAsociadosAMedico(String rut) {
-        return citas.stream()
-                .filter(cita -> cita.getRutMedico().equals(rut))
-                .map(cita -> obtenerPaciente(cita.getRutPaciente()))
-                .collect(toList());
+    public void removePaciente(String rut) {
+        pacientes.removeIf(paciente -> paciente.getRut().equals(rut));
+        GestorDeArchivos.borrarRegistro("src/main/resources/data/pacientes.txt", rut, 0);
+    }
+
+    public void removeMedico(String rut) {
+        medicos.removeIf(medico -> medico.getRut().equals(rut));
+        GestorDeArchivos.borrarRegistro("src/main/resources/data/medicos.txt", rut, 0);
     }
 }

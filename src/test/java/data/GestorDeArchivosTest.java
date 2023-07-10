@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -186,5 +187,20 @@ class GestorDeArchivosTest {
         assertAll("Guardar Medico",
                 () -> assertEquals(1, lines.size()),
                 () -> assertEquals("2023-06-27,10:00,123456789,987654321", registro));
+    }
+
+    @Test
+    void testFiltrarRegistros() {
+        List<String[]> registros = Arrays.asList(
+                new String[]{"123", "John", "Doe"},
+                new String[]{"456", "Jane", "Smith"},
+                new String[]{"789", "Alice", "Johnson"}
+        );
+
+        List<String[]> registrosFiltrados = GestorDeArchivos.filtrarRegistros("456", registros, 0);
+
+        assertEquals(2, registrosFiltrados.size());
+        assertEquals("123", registrosFiltrados.get(0)[0]);
+        assertEquals("789", registrosFiltrados.get(1)[0]);
     }
 }

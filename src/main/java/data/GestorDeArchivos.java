@@ -14,6 +14,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class GestorDeArchivos {
     public static List<Cita> leerCitas(String ruta) {
         List<String[]> registros = GestorDeArchivos.leerArchivo(ruta);
@@ -43,12 +45,32 @@ public class GestorDeArchivos {
         }
     }
 
-    private static List<String[]> leerArchivo(String ruta) {
+    public static List<String[]> leerArchivo(String ruta) {
         try (CSVReader reader = new CSVReader(new FileReader(ruta))) {
             return reader.readAll();
         } catch (IOException | CsvException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public static void borrarRegistro(String ruta, String rut, int indice) {
+        List<String[]> registros = leerArchivo(ruta);
+        List<String[]> registrosActualizados = filtrarRegistros(rut, registros, indice);
+        sobreescribirArchivo(ruta, registrosActualizados);
+    }
+
+    public static void sobreescribirArchivo(String ruta, List<String[]> registros) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(ruta))) {
+            writer.writeAll(registros, false);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static List<String[]> filtrarRegistros(String rut, List<String[]> registros, int indice) {
+        return registros.stream()
+                .filter(registro -> !registro[indice].equals(rut))
+                .collect(toList());
     }
 }
 
