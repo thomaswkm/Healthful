@@ -52,6 +52,14 @@ public class Paciente extends Usuario {
         return Period.between(fechaNacimiento, LocalDate.now()).getYears();
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
     @Override
     public String toString() {
         return rut + "," + nombre + "," + apellido + "," + fechaNacimiento + "," + sexo + "," + estadoCivil;

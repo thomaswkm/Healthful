@@ -30,6 +30,10 @@ public class Medico extends Usuario {
         this.citas = citas;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
     public List<Cita> getCitas() {
         return citas;
     }
@@ -61,6 +65,10 @@ public class Medico extends Usuario {
                 estadoCivil.toString(),
                 especialidad
         };
+    }
+
+    public String getApellido() {
+        return apellido;
     }
 
     @Override
